@@ -133,14 +133,14 @@ img {
 	cursor: pointer;
 }
 .btn:hover {
-	background: var(--bg-accent);
+	background: var(--primary);
 }
 .btn.primary {
 	background: var(--gradient);
 	border: none;
 }
 .btn.primary:hover {
-	background: var(--bg-accent);
+	background: var(--primary);
 	border: none;
 }
 
@@ -151,6 +151,10 @@ img {
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+.slick-prev,
+.slick-next {
+	display: none !important;
 }
 /* ===================================RESPONSIVENESS============================================== */
 /* MEDIUM===========================================================*/

@@ -9,8 +9,7 @@ const Agents = () => {
 	const settings = {
 		Infinite: true,
 		speed: 500,
-		slidesToShow: 1,
-		dots: true,
+		slidesToShow: 3,
 		centerMode: true,
 		gap: 50,
 		pauseOnHover: true,
@@ -65,13 +64,13 @@ const Agents = () => {
 						className="flex-center btn"
 						onClick={() => ref.current.slickPrev()}
 					>
-						<FaLongArrowAltLeft />
+						<FaLongArrowAltLeft className="arrows" />
 					</button>
 					<button
 						className="flex-center btn"
 						onClick={() => ref.current.slickNext()}
 					>
-						<FaLongArrowAltRight />
+						<FaLongArrowAltRight className="arrows" />
 					</button>
 				</div>
 			</div>
