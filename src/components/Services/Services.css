@@ -1,17 +1,21 @@
 #services .services-container {
-	display: flex;
+	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	gap: 20px;
 }
+
 #services .service {
 	padding: 20px;
 	transition: var(--transition);
-	justify-content: space-between;
 	flex-direction: column;
 	border-radius: 10px;
 }
 #services .service:hover {
 	background: var(--bg-secondary);
+}
+#services .service:hover .icon-wrapper {
+	background: var(--foreground);
+	transform: scale(1.2);
 }
 #services .service .details {
 	flex: 1;
@@ -26,4 +30,17 @@
 	border-radius: 10px;
 	color: var(--foreground);
 	transition: var(--transition);
+}
+/* ===================================RESPONSIVENESS============================================== */
+/* TABLETS===========================================================*/
+@media (max-width: 1000px) {
+	#services .services-container {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+/* SMALL===========================================================*/
+@media (max-width: 600px) {
+	#services .services-container {
+		grid-template-columns: 100%;
+	}
 }
