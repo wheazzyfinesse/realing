@@ -1,0 +1,45 @@
+#hero {
+	overflow: hidden;
+	min-height: 100vh;
+}
+#hero .wrapper {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+}
+#hero .wrapper .buttons-wrapper {
+	justify-content: flex-start;
+	margin-top: 40px;
+	gap: 40px;
+}
+#hero .hero-image {
+	position: relative;
+}
+#hero .hero-image::before {
+	border-bottom-right-radius: 20px;
+
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	background: linear-gradient(to bottom, transparent, var(--bg-primary));
+}
+/* ===================================RESPONSICVENESS============================================== */
+/* MEDIUM===========================================================*/
+@media (max-width: 900px) {
+	#hero .wrapper {
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	#hero .wrapper .column * {
+		justify-content: center;
+		text-align: center;
+	}
+	#hero .wrapper .buttons-wrapper {
+		margin-top: 10px;
+		gap: 10px;
+	}
+}

@@ -1,0 +1,106 @@
+#about .wrapper {
+	display: grid;
+	grid-template-columns: 400px auto;
+	gap: 30px;
+}
+
+#about .wrapper > .column:first-child {
+	position: relative;
+}
+#about .image-wrapper {
+	overflow: hidden;
+	border-radius: 15px;
+	position: relative;
+	z-index: 1;
+}
+
+#about .image-wrapper img {
+	transition: var(--transition);
+}
+
+#about .image-wrapper:hover img {
+	transform: scale(1.2);
+}
+#about .image-wrapper::before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 70%;
+	background: linear-gradient(to bottom, transparent, var(--bg-primary));
+	z-index: 2;
+	transition: var(--transition);
+}
+#about .group {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 30px;
+	margin-top: 40px;
+	background: var(--bg-accent);
+	border-radius: 10px;
+	border: 0.5px solid var(--border-primary);
+	padding: 30px;
+}
+
+#about .group .group-item {
+	width: 100%;
+	background: var(--bg-secondary);
+	padding: 30px;
+	justify-content: flex-start;
+	gap: 20px;
+	border-radius: 10px;
+	border: 0.5px solid var(--border-primary);
+	transition: var(--transition);
+}
+#about .group .group-item .title {
+	font-size: 14px;
+	text-align: center;
+}
+#about .group-item:hover {
+	background: var(--bg-muted);
+	transform: scale(1.1);
+}
+#about .group .group-item:hover .icon-wrapper {
+	transform: scale(1.1);
+	background: var(--foreground);
+}
+#about .group .why {
+	display: none;
+}
+/* ===================================RESPONSIVENESS============================================== */
+/* TABLETS===========================================================*/
+@media (max-width: 1000px) {
+	#about .group .group-item {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+		padding: 20px;
+	}
+}
+/* MEDIUM===========================================================*/
+@media (max-width: 900px) {
+	#about .image-wrapper {
+		display: none;
+	}
+	#about .wrapper {
+		grid-template-columns: 100%;
+	}
+}
+/* SMALL===========================================================*/
+@media (max-width: 450px) {
+	#about .group {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 10px;
+		margin-top: 20px;
+		background: var(--bg-accent);
+		border-radius: 10px;
+		border: 0.5px solid var(--border-primary);
+		padding: 10px 40px;
+	}
+	#about .group .why {
+		display: block;
+	}
+}
