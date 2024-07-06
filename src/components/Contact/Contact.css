@@ -4,7 +4,7 @@
 	border-radius: 10px;
 }
 #contact .title {
-	font-size: 30px;
+	font-size: 40px;
 }
 #contact .row {
 	justify-content: space-between;
@@ -54,5 +54,8 @@ textarea {
 	#contact .row {
 		flex-direction: column;
 		gap: 0px;
+	}
+	#contact .title {
+		font-size: 30px;
 	}
 }

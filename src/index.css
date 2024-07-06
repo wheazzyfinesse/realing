@@ -48,8 +48,11 @@ p {
 }
 
 a {
-	color: var(--foreground);
+	color: var(--gradient);
 	text-decoration: none;
+}
+a:hover {
+	color: var(--foreground);
 }
 
 h1,
@@ -72,7 +75,7 @@ img {
 	font-size: 60px;
 	font-weight: 700;
 	line-height: 65px;
-	margin: 20px 0px;
+	margin: 50px 0px;
 }
 
 .gradient-text {

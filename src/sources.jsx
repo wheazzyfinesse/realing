@@ -248,17 +248,17 @@ export const clients = [
 export const contactOptions = [
 	{
 		title: "Email",
-		value: "mradinuba@gmail.com",
+		value: "techfinesse@gmail.com",
 		icon: <MdOutlineAlternateEmail />,
 	},
 	{
 		title: "Phone Number",
-		value: "+2348149121918",
+		value: "+34722387085",
 		icon: <IoCallOutline />,
 	},
 	{
 		title: "Address",
-		value: "Gwarinpa, Abuja, Nigeria",
+		value: "Zaragoza, Spain",
 		icon: <IoLocationOutline />,
 	},
 ];
@@ -285,7 +285,7 @@ export const footer = [
 	{
 		title: "Explore",
 		routes: [
-			{ name: "Home", id: "hero" },
+			{ name: "Home", id: "" },
 			{ name: "About Us", id: "about" },
 			{ name: "Services", id: "services" },
 		],
@@ -301,9 +301,9 @@ export const footer = [
 	{
 		title: "Quick Links",
 		routes: [
-			{ name: "Privacy Policy" },
-			{ name: "Terms and Conditions" },
-			{ name: "Cookie Policy" },
+			{ name: "Privacy Policy", id: "privacypolicy" },
+			{ name: "Terms and Conditions", id: "termsandconditions" },
+			{ name: "Cookie Policy", id: "cookiepolicy" },
 		],
 	},
 ];
