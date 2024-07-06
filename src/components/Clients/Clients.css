@@ -1,0 +1,55 @@
+#clients .clients-container {
+	margin-top: 20px;
+}
+#clients .slick-track {
+	display: flex !important;
+}
+#clients .slick-slide {
+	height: inherit !important;
+	background: var(--bg-secondary);
+	padding: 40px 30px;
+	border-radius: 10px;
+	border: 0.5px solid var(--border-secondary);
+	display: flex;
+	align-items: stretch;
+	flex-direction: column;
+	transition: var(--transition);
+}
+#clients .slick-slide:hover {
+	background: var(--bg-accent);
+}
+#clients .profile {
+	width: 4rem;
+	height: 4rem;
+	margin-right: 10px;
+	border-radius: 10px;
+	overflow: hidden;
+	cursor: pointer;
+	transition: var(--transition);
+}
+#clients .profile:hover {
+	opacity: 0.5;
+}
+#clients .content {
+	flex: 1;
+	padding: 20px 0;
+}
+#clients .stars-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: var(--warning);
+}
+#clients .buttons-container {
+	justify-content: flex-end;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+#clients .buttons-container .arrows {
+	color: var(--primary);
+	font-size: 15px;
+}
+#clients .buttons-container .btn:hover .arrows {
+	color: var(--foreground);
+}
