@@ -3,13 +3,17 @@ import { tabs } from "../../sources";
 import { HiMenu } from "react-icons/hi";
 import Logo from "../commons/Logo";
 import SocialHandles from "../commons/SocioHandles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Link as LinkScroll } from "react-scroll";
 const Navbar = () => {
 	const path = useLocation();
 	const auth = path.pathname === "/";
 	const [sidebar, setSidebar] = useState(false);
+	const [mobile, setMobile] = useState(window.innerWidth <= 500);
+	useEffect(() => {
+		setMobile(window.innerWidth <= 500);
+	}, [window.innerWidth]);
 
 	return (
 		<div className="navbar flex">
@@ -32,6 +36,11 @@ const Navbar = () => {
 						{tab.name}
 					</Link>
 				))}
+				{mobile && (
+					<Link to="/login" className="btn primary">
+						LOG IN
+					</Link>
+				)}
 			</div>
 			<SocialHandles />
 			<div className="box flex-center buttons">
