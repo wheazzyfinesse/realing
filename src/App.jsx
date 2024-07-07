@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 function App() {
 	useEffect(() => {
 		Aos.init({
@@ -27,6 +28,7 @@ function App() {
 				<Route path="/register" element={<Register />} />
 				<Route path="/forgotpassword" element={<ForgotPassword />} />
 				<Route path="/profile" element={<Profile />} />
+				<Route path="*" element={<NotFound />} /> {/* Catch-all route */}
 			</Routes>
 			<Footer />
 		</Router>
