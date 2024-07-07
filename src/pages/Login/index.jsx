@@ -5,6 +5,7 @@ import { baseSchema } from "../../redux/zod";
 import { useLoginMutation } from "../../redux/apiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../redux/userSlice";
+import { Link } from "react-router-dom";
 const Login = () => {
 	const { register, handleSubmit, errors } = useForm({
 		resolver: zodResolver(baseSchema),
@@ -52,9 +53,9 @@ const Login = () => {
 						<button className="btn">Google</button>
 						<button className="btn">Facebook</button>
 					</div>
-					<a href="/forgotpassword">Forgot Password?</a>
+					<Link to="/forgotpassword">Forgot Password?</Link>
 					<p className="register-link">
-						Don&apos;t have an account? <a href="/register">Register</a>
+						Don&apos;t have an account? <Link to="/register">Register</Link>
 					</p>
 				</div>
 			</div>

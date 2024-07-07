@@ -1,24 +1,40 @@
 import "./Register.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { baseSchema } from "../../redux/zod";
+import { registerSchema } from "../../redux/zod";
+import { useRegisterUserMutation } from "../../redux/apiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../redux/userSlice";
+import { Link } from "react-router-dom";
 const Register = () => {
 	const { register, handleSubmit, errors } = useForm({
-		resolver: zodResolver(baseSchema),
+		resolver: zodResolver(registerSchema),
 	});
+	const [registerUser] = useRegisterUserMutation();
+	const dispatch = useDispatch();
+	const submitHandler = async (formData) => {
+		try {
+			const res = await registerUser(formData).unwrap();
+			dispatch(setCredentials({ ...res }));
+			window.location.href = "/"; // Redirect to home page after successful login
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div className="wrapper">
 			<div className="register-container">
 				<h1 className="heading-1">
 					<span className="gradient-text">REGISTER</span>
 				</h1>
-				<form onSubmit={handleSubmit} className="form-container">
+				<form onSubmit={handleSubmit(submitHandler)} className="form-container">
 					<label htmlFor="username">Username</label>
 					<input type="text" {...register("username")} className="control" />
 					{errors?.username && (
 						<p className="error">{errors.username.message}</p>
 					)}
-					<label htmlFor="username">Email</label>
+					<label htmlFor="email">Email</label>
 					<input type="text" {...register("email")} className="control" />
 					{errors?.email && <p className="error">{errors.email.message}</p>}
 					<label htmlFor="password">Password</label>
@@ -30,7 +46,7 @@ const Register = () => {
 					{errors?.password && (
 						<p className="error">{errors.password.message}</p>
 					)}
-					<label htmlFor="password">Confirm password</label>
+					<label htmlFor="confirmPassword">Confirm password</label>
 					<input
 						type="password"
 						{...register("confirmPassword")}
@@ -51,9 +67,9 @@ const Register = () => {
 						<button className="btn">Google</button>
 						<button className="btn">Facebook</button>
 					</div>
-					<a href="/forgotpassword">Forgot Password?</a>
+					<Link to="/forgotpassword">Forgot Password?</Link>
 					<p className="register-link">
-						Already have an account? <a href="/login">Login</a>
+						Already have an account? <Link to="/login">Login</Link>
 					</p>
 				</div>
 			</div>

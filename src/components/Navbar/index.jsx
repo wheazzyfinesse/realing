@@ -29,7 +29,7 @@ const Navbar = () => {
 						to={`/${tab.id}`}
 						smooth={true}
 						className="tab"
-						activeClass="active"
+						activeclass="active"
 						key={index}
 						onClick={() => setSidebar(false)}
 					>
@@ -37,7 +37,11 @@ const Navbar = () => {
 					</Link>
 				))}
 				{mobile && (
-					<Link to="/login" className="btn primary">
+					<Link
+						to="/login"
+						onClick={() => setSidebar(false)}
+						className="btn primary"
+					>
 						LOG IN
 					</Link>
 				)}

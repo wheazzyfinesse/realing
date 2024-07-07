@@ -2,9 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
 	reducerPath: "api",
-	baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:5000/api/" }),
+	baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
 	endpoints: (builder) => ({
-		register: builder.mutation({
+		registerUser: builder.mutation({
 			query: (credentials) => ({
 				url: "user/register",
 				method: "POST",
@@ -16,6 +16,12 @@ export const apiSlice = createApi({
 				url: "user/login",
 				method: "POST",
 				body: credentials,
+			}),
+		}),
+		logout: builder.mutation({
+			query: () => ({
+				url: "user/logout",
+				method: "POST",
 			}),
 		}),
 		// Properties endpoints
@@ -78,8 +84,9 @@ export const apiSlice = createApi({
 });
 
 export const {
+	useRegisterUserMutation,
 	useLoginMutation,
-	useRegisterMutation,
+	useLogoutMutation,
 	useGetPropertiesQuery,
 	useGetPropertyQuery,
 	useAddPropertyMutation,

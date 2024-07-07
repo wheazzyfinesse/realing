@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
 	const { register, handleSubmit, errors } = useForm();
@@ -30,10 +31,10 @@ const ForgotPassword = () => {
 					</div>
 
 					<p className="register-link">
-						Remember password? <a href="/login">Login</a>
+						Remember password? <Link to="/login">Login</Link>
 					</p>
 					<p className="register-link">
-						Don&apos;t have an account? <a href="/register">Register</a>
+						Don&apos;t have an account? <Link to="/register">Register</Link>
 					</p>
 				</div>
 			</div>
