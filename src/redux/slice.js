@@ -1,7 +1,6 @@
 // src/features/user/userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
-
 // Define thunks for endpoints
 // Define thunks for user
 export const registerUser = createAsyncThunk(
@@ -11,10 +10,8 @@ export const registerUser = createAsyncThunk(
 			const response = await dispatch(
 				apiSlice.endpoints.register.initiate(credentials),
 			).unwrap();
-			const user = response.data;
-			window.location.href = "/profile"; // Redirect to home page after successful login
 
-			return user;
+			return response;
 		} catch (error) {
 			return rejectWithValue(error.data);
 		}
@@ -24,13 +21,10 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
 	"user/loginUser",
 	async (credentials, { dispatch, rejectWithValue }) => {
-		console.log(credentials);
 		try {
 			const response = await dispatch(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
-			console.log(response);
-			window.location.href = "/properties"; // Redirect to home page after successful login
 
 			return response;
 		} catch (error) {
@@ -44,11 +38,8 @@ export const logoutUser = createAsyncThunk(
 	"user/logoutUser",
 	async (_, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
-				apiSlice.endpoints.logout.initiate(),
-			).unwrap();
-			console.log(response);
-			return response.message;
+			await dispatch(apiSlice.endpoints.logout.initiate()).unwrap();
+			return;
 		} catch (error) {
 			return rejectWithValue(error);
 		}

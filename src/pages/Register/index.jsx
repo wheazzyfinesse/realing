@@ -3,18 +3,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../../redux/zod";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/slice";
 const Register = () => {
 	const { register, handleSubmit, errors } = useForm({
 		resolver: zodResolver(registerSchema),
 	});
 	const { userInfo } = useSelector((state) => state.user);
+	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
 
 	const registerHandler = async (formData) => {
 		dispatch(registerUser(formData));
+		navigate("/profile");
 	};
 
 	if (userInfo) return (window.location.href = "/");

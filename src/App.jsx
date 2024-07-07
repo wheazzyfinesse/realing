@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/Profile";
 function App() {
 	useEffect(() => {
 		Aos.init({
@@ -25,6 +26,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/forgotpassword" element={<ForgotPassword />} />
+				<Route path="/profile" element={<Profile />} />
 			</Routes>
 			<Footer />
 		</Router>

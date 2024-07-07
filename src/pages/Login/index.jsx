@@ -3,18 +3,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { baseSchema } from "../../redux/zod";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { loginUser } from "../../redux/slice";
+
 const Login = () => {
 	const { register, handleSubmit, errors } = useForm({
 		resolver: zodResolver(baseSchema),
 	});
+	const navigate = useNavigate();
+
 	const { userInfo, loading, error } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
 	const loginHandler = (credentials) => {
 		dispatch(loginUser(credentials));
-		window.location;
+		navigate("/properties");
 	};
 
 	if (userInfo) return <Navigate to="/" />;
