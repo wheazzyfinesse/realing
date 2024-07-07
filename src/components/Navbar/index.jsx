@@ -9,14 +9,11 @@ import { Link as LinkScroll } from "react-scroll";
 const Navbar = () => {
 	const path = useLocation();
 	const auth = path.pathname === "/";
-	console.log(auth);
 	const [sidebar, setSidebar] = useState(false);
 
 	return (
 		<div className="navbar flex">
-			{sidebar && (
-				<div className="overlay" onClick={() => setSidebar((prev) => !prev)} />
-			)}
+			{sidebar && <div className="overlay" onClick={() => setSidebar(false)} />}
 			<Logo />
 			<div
 				className={`box flex-center tabs-group sidebar ${
@@ -30,7 +27,7 @@ const Navbar = () => {
 						className="tab"
 						activeClass="active"
 						key={index}
-						onClick={() => setSidebar((prev) => !prev)}
+						onClick={() => setSidebar(false)}
 					>
 						{tab.name}
 					</Link>
@@ -52,7 +49,7 @@ const Navbar = () => {
 						</LinkScroll>
 					</>
 				)}
-				<Link to="auth" smooth={true} className="btn primary login-btn">
+				<Link to="/login" className="btn primary login-btn">
 					LOG IN
 				</Link>
 				<div

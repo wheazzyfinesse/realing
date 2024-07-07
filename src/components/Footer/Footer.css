@@ -97,4 +97,9 @@
 		grid-template-columns: 100%;
 		gap: 40px;
 	}
+	#footer .bottom-row .title,
+	#footer .bottom-row .route {
+		text-align: center;
+		display: block;
+	}
 }

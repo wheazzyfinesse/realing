@@ -1,0 +1,73 @@
+.register-container {
+	height: 100vh;
+	width: 100%;
+	text-align: center;
+	margin-bottom: 100px;
+}
+
+.form-container {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 50px;
+}
+.form-container .control {
+	display: flex;
+	width: 50%;
+	height: 40px;
+	padding: 10px;
+	margin: 20px 0;
+	background: var(--bg-muted);
+	border-radius: 5px;
+	color: var(--foreground);
+	color: var(--foreground);
+	font-size: 15px;
+	overflow: hidden;
+	transition: var(--transition);
+	border: 2px solid var(--border-primary);
+	resize: none;
+}
+.form-container .control:hover {
+	border-color: var(--primary);
+}
+.form-container .control:focus {
+	border-color: var(--primary);
+	background: var(--bg-secondary);
+}
+.form-container .btn {
+	display: block;
+	padding: 20px 30px;
+	width: 50%;
+	font-size: 14px;
+	margin-top: 20px;
+}
+.register-container .flex-center {
+	gap: 10px;
+}
+.register-container .buttons-container {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 40px;
+}
+.register-container .link {
+	color: var(--gradient);
+	text-decoration: none;
+}
+
+.register-container .link:hover {
+	color: var(--foreground);
+}
+/* ===================================RESPONSIVENESS============================================== */
+
+/* SMALL===========================================================*/
+@media (max-width: 600px) {
+	.form-container .control {
+		width: 100%;
+	}
+}

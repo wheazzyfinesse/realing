@@ -26,6 +26,9 @@
 .navbar .buttons {
 	gap: 20px;
 }
+.navbar .login-btn:hover {
+	color: var(--foreground);
+}
 .navbar .menu-btn {
 	display: none;
 }

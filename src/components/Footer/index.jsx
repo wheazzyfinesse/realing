@@ -30,7 +30,7 @@ const Footer = () => {
 					</div>
 					{footer.map((list, index) => (
 						<div className="column" key={index}>
-							<h3 className="gradient-text">{list.title}</h3>
+							<h3 className="gradient-text title">{list.title}</h3>
 							{list.routes.map((route, i) => (
 								<Link className="route" to={route.id} key={i}>
 									{route.name}

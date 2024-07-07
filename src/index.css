@@ -48,11 +48,11 @@ p {
 }
 
 a {
-	color: var(--gradient);
+	color: var(--muted-foreground);
 	text-decoration: none;
 }
 a:hover {
-	color: var(--foreground);
+	color: var(--primary);
 }
 
 h1,
@@ -92,7 +92,7 @@ img {
 .wrapper {
 	width: 100%;
 	max-width: 1150px;
-	padding: 20px 40px;
+	padding: 20px 30px;
 	margin: auto;
 }
 

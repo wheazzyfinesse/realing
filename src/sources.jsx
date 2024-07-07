@@ -26,6 +26,7 @@ import {
 } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import { SiBlueprint } from "react-icons/si";
+import * as z from "zod";
 
 export const tabs = [
 	{ name: "Home", id: "" },
@@ -307,3 +308,7 @@ export const footer = [
 		],
 	},
 ];
+const loginSchema = z.object({
+	username: z.string().min(1, "Username is required"),
+	password: z.string().min(6, "Password must be at least 6 characters long"),
+});
