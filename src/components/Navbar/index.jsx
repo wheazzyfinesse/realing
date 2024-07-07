@@ -91,6 +91,7 @@ const Navbar = () => {
 							</>
 						)}
 						<Link
+							to="/login"
 							onClick={() => {
 								if (userInfo) {
 									setSidebar(false);
