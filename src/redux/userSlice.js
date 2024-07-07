@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { json } from "react-router";
 
 const initialState = {
-	userInfo: localStorage.getItem("user")
-		? JSON.parse(localStorage.getItem("user"))
+	userInfo: localStorage.getItem("userInfo")
+		? JSON.parse(localStorage.getItem("userInfo"))
 		: null, // Initial user state from local storage
+	loading: false,
+	error: null,
 };
 const userSlice = createSlice({
 	name: "userInfo",

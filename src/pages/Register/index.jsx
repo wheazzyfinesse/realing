@@ -2,33 +2,32 @@ import "./Register.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../../redux/zod";
-import { useRegisterUserMutation } from "../../redux/apiSlice";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { registerUser } from "../../redux/slice";
 const Register = () => {
 	const { register, handleSubmit, errors } = useForm({
 		resolver: zodResolver(registerSchema),
 	});
-	const [registerUser] = useRegisterUserMutation();
+	const { userInfo } = useSelector((state) => state.user);
+
 	const dispatch = useDispatch();
-	const submitHandler = async (formData) => {
-		try {
-			const res = await registerUser(formData).unwrap();
-			dispatch(setCredentials({ ...res }));
-			window.location.href = "/"; // Redirect to home page after successful login
-		} catch (error) {
-			console.log(error);
-		}
+
+	const registerHandler = async (formData) => {
+		dispatch(registerUser(formData));
 	};
 
+	if (userInfo) return (window.location.href = "/");
 	return (
 		<div className="wrapper">
 			<div className="register-container">
 				<h1 className="heading-1">
 					<span className="gradient-text">REGISTER</span>
 				</h1>
-				<form onSubmit={handleSubmit(submitHandler)} className="form-container">
+				<form
+					onSubmit={handleSubmit(registerHandler)}
+					className="form-container"
+				>
 					<label htmlFor="username">Username</label>
 					<input type="text" {...register("username")} className="control" />
 					{errors?.username && (

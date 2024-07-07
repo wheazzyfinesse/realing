@@ -2,33 +2,29 @@ import "./Login.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { baseSchema } from "../../redux/zod";
-import { useLoginMutation } from "../../redux/apiSlice";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../../redux/userSlice";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
+import { loginUser } from "../../redux/slice";
 const Login = () => {
 	const { register, handleSubmit, errors } = useForm({
 		resolver: zodResolver(baseSchema),
 	});
-	const [login] = useLoginMutation();
+	const { userInfo, loading, error } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
-	const submitHandler = async (formData) => {
-		try {
-			const res = await login(formData).unwrap();
-			dispatch(setCredentials({ ...res }));
-			window.location.href = "/"; // Redirect to home page after successful login
-		} catch (error) {
-			console.log(error);
-		}
+
+	const loginHandler = (credentials) => {
+		dispatch(loginUser(credentials));
+		window.location;
 	};
 
+	if (userInfo) return <Navigate to="/" />;
 	return (
 		<div className="wrapper">
 			<div className="container">
 				<h1 className="heading-1">
 					<span className="gradient-text">LOGIN</span>
 				</h1>
-				<form onSubmit={handleSubmit(submitHandler)} className="form-container">
+				<form onSubmit={handleSubmit(loginHandler)} className="form-container">
 					<label htmlFor="username">Email</label>
 					<input type="text" {...register("email")} className="control" />
 					{errors?.email && <p className="error">{errors.email.message}</p>}
@@ -41,9 +37,10 @@ const Login = () => {
 					{errors?.password && (
 						<p className="error">{errors.password.message}</p>
 					)}
-					<button type="submit" className="btn primary">
-						Login
+					<button type="submit" disabled={loading} className="btn primary">
+						{loading ? "loading..." : "Login"}
 					</button>
+					{error && <p className="error">{error}</p>}
 				</form>
 				<div className="buttons-container">
 					<h1 className=" gradient-text">OR</h1>

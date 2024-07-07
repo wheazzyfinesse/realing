@@ -26,7 +26,8 @@
 .navbar .buttons {
 	gap: 20px;
 }
-.navbar .login-btn:hover {
+.navbar .btn:hover,
+.navbar .btn-menu:hover {
 	color: var(--foreground);
 }
 .navbar .menu-btn {

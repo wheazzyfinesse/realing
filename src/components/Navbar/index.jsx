@@ -6,11 +6,17 @@ import SocialHandles from "../commons/SocioHandles";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Link as LinkScroll } from "react-scroll";
+import { useDispatch, useSelector } from "react-redux";
+import { CiUser } from "react-icons/ci";
+import { logoutUser } from "../../redux/slice";
 const Navbar = () => {
 	const path = useLocation();
 	const auth = path.pathname === "/";
 	const [sidebar, setSidebar] = useState(false);
 	const [mobile, setMobile] = useState(window.innerWidth <= 500);
+	const { userInfo } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
+
 	useEffect(() => {
 		setMobile(window.innerWidth <= 500);
 	}, [window.innerWidth]);
@@ -27,7 +33,7 @@ const Navbar = () => {
 				{tabs.map((tab, index) => (
 					<Link
 						to={`/${tab.id}`}
-						smooth={true}
+						smooth="true"
 						className="tab"
 						activeclass="active"
 						key={index}
@@ -36,14 +42,69 @@ const Navbar = () => {
 						{tab.name}
 					</Link>
 				))}
+
 				{mobile && (
-					<Link
-						to="/login"
-						onClick={() => setSidebar(false)}
-						className="btn primary"
-					>
-						LOG IN
-					</Link>
+					<>
+						{userInfo?.isAdmin && (
+							<>
+								<Link
+									to="/profile"
+									className="tab"
+									activeclass="active"
+									onClick={() => setSidebar(false)}
+								>
+									Profile
+								</Link>
+
+								<Link
+									to="/profile"
+									className="tab"
+									activeclass="active"
+									onClick={() => setSidebar(false)}
+								>
+									Add Property Listing
+								</Link>
+								<Link
+									to="/profile"
+									className="tab"
+									activeclass="active"
+									onClick={() => setSidebar(false)}
+								>
+									Manage Properties
+								</Link>
+								<Link
+									to="/profile"
+									className="tab"
+									activeclass="active"
+									onClick={() => setSidebar(false)}
+								>
+									Manage Users
+								</Link>
+								<Link
+									to="/profile"
+									className="tab"
+									activeclass="active"
+									onClick={() => setSidebar(false)}
+								>
+									Manage Enquiries
+								</Link>
+							</>
+						)}
+						<Link
+							to="/login"
+							onClick={() => {
+								if (userInfo) {
+									setSidebar(false);
+									dispatch(logoutUser());
+								} else {
+									setSidebar(false);
+								}
+							}}
+							className="btn primary btn-menu"
+						>
+							{userInfo ? "Log out" : "Log in"}
+						</Link>
+					</>
 				)}
 			</div>
 			<SocialHandles />
@@ -62,8 +123,25 @@ const Navbar = () => {
 						</LinkScroll>
 					</>
 				)}
-				<Link to="/login" className="btn primary login-btn">
-					LOG IN
+
+				{userInfo && (
+					<Link to="/profile" className="btn">
+						<CiUser />
+					</Link>
+				)}
+				<Link
+					to="/login"
+					onClick={() => {
+						if (userInfo) {
+							setSidebar(false);
+							dispatch(logoutUser());
+						} else {
+							setSidebar(false);
+						}
+					}}
+					className="btn primary login-btn"
+				>
+					{userInfo ? "Log out" : "Log in"}
 				</Link>
 				<div
 					className="flex-center icon-wrapper menu-btn"

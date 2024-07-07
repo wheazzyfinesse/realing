@@ -32,7 +32,7 @@ const Contact = () => {
 						<div className="flex row">
 							<input
 								type="email"
-								placeholder="First name"
+								placeholder="Email"
 								name="email"
 								className="control"
 							/>

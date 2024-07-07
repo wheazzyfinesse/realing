@@ -2,9 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
 	reducerPath: "api",
-	baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
+	baseQuery: fetchBaseQuery({ baseUrl: "https://realingapi.vercel.app/api/" }),
 	endpoints: (builder) => ({
-		registerUser: builder.mutation({
+		register: builder.mutation({
 			query: (credentials) => ({
 				url: "user/register",
 				method: "POST",
@@ -84,7 +84,7 @@ export const apiSlice = createApi({
 });
 
 export const {
-	useRegisterUserMutation,
+	useRegisterMutation,
 	useLoginMutation,
 	useLogoutMutation,
 	useGetPropertiesQuery,
