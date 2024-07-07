@@ -10,7 +10,11 @@ export const registerUser = createAsyncThunk(
 			const response = await dispatch(
 				apiSlice.endpoints.register.initiate(credentials),
 			).unwrap();
-			return response;
+			if (!response) {
+				return rejectWithValue("Failed to register");
+			} else {
+				return response;
+			}
 		} catch (error) {
 			return rejectWithValue(error.data);
 		}
@@ -24,8 +28,11 @@ export const loginUser = createAsyncThunk(
 			const response = await dispatch(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
-
-			return response;
+			if (!response) {
+				return rejectWithValue("Failed to login");
+			} else {
+				return response;
+			}
 		} catch (error) {
 			return rejectWithValue(error.data.message);
 		}
