@@ -12,7 +12,7 @@ export const registerUser = createAsyncThunk(
 				apiSlice.endpoints.register.initiate(credentials),
 			).unwrap();
 			const user = response.data;
-			window.location.href = "/"; // Redirect to home page after successful login
+			window.location.href = "/profile"; // Redirect to home page after successful login
 
 			return user;
 		} catch (error) {
@@ -30,7 +30,7 @@ export const loginUser = createAsyncThunk(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
 			console.log(response);
-			window.location.href = "/"; // Redirect to home page after successful login
+			window.location.href = "/properties"; // Redirect to home page after successful login
 
 			return response;
 		} catch (error) {
@@ -48,7 +48,6 @@ export const logoutUser = createAsyncThunk(
 				apiSlice.endpoints.logout.initiate(),
 			).unwrap();
 			console.log(response);
-			window.location.href = "/login"; // Redirect to home page after successful login
 			return response.message;
 		} catch (error) {
 			return rejectWithValue(error);
