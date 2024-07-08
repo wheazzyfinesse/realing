@@ -1,3 +1,4 @@
+import { contactOptions } from "../../sources";
 import "./Contact.css";
 
 const Contact = () => {
@@ -52,6 +53,15 @@ const Contact = () => {
 					<div className="flex-center bottom">
 						<button className="btn primary">Submit</button>
 					</div>
+				</div>
+				<div className="contact-options">
+					{contactOptions.map((option, index) => (
+						<div className="flex-center option" key={index}>
+							<div className="flex-center icon-wrapper">{option.icon} </div>
+							<h4 className="muted">{option.title}</h4>
+							<h3 className="value">{option.value}</h3>
+						</div>
+					))}
 				</div>
 			</div>
 		</section>

@@ -1,5 +1,5 @@
 import "./Footer.css";
-import { contactOptions, footer } from "../../sources";
+import { footer } from "../../sources";
 import footerImage from "../../assets/realist-footer.png";
 import Logo from "../commons/Logo";
 import SocioHandles from "../commons/SocioHandles";
@@ -8,17 +8,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
 	return (
 		<footer id="footer">
-			<div className="wrapper">
-				<div className="contact-options">
-					{contactOptions.map((option, index) => (
-						<div className="flex-center option" key={index}>
-							<div className="flex-center icon-wrapper">{option.icon} </div>
-							<h4 className="muted title">{option.title}</h4>
-							<h3 className="value">{option.value}</h3>
-						</div>
-					))}
-				</div>
-			</div>
+			<div className="wrapper"></div>
 			<div className="bottom-row">
 				<div className="wrapper">
 					<div className="column">

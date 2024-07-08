@@ -13,7 +13,6 @@ const Account = () => {
 	} = useForm({
 		resolver: zodResolver(registerSchema),
 	});
-	console.log(errors);
 	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
@@ -26,9 +25,7 @@ const Account = () => {
 	return (
 		<div className="wrapper">
 			<div className="register-container">
-				<h1 className="heading-1">
-					<span className="gradient-text">REGISTER</span>
-				</h1>
+				<span className="gradient-text">My Account</span>
 				<form
 					onSubmit={handleSubmit(registerHandler)}
 					className="form-container"
