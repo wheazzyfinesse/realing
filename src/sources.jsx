@@ -86,6 +86,7 @@ export const services = [
 
 export const properties = [
 	{
+		id: 1,
 		title: "Spectacular Oceanfront Villa with Private Beach Access",
 		image: building1,
 		description: ` Lorem ipsum dolor sit amet consectetur adipisicing elit. 
@@ -96,6 +97,7 @@ export const properties = [
 		location: "Abuja, Nigeria",
 	},
 	{
+		id: 2,
 		title: "Chic Downtown Loft with Panoramic City Views",
 		image: building2,
 		description: ` Lorem ipsum dolor sit amet consectetur adipisicing elit. 
@@ -106,6 +108,7 @@ export const properties = [
 		location: "Lagos, Nigeria",
 	},
 	{
+		id: 3,
 		title: "Majestic Napa Valley Estate with Vineyard and Winery",
 		image: building3,
 		description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. 

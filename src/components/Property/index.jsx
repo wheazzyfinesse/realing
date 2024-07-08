@@ -1,13 +1,14 @@
-import "./Properties.css";
+import "./Property.css";
 import { properties } from "../../sources";
 import { FaBath, FaBed } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
-const Properties = () => {
+const Property = () => {
 	return (
 		<section id="properties">
 			<div className="wrapper">
 				<h1 className="heading-1">
-					<span className="gradient-text">Featured Properties</span>
+					<span className="gradient-text">Properties</span>
 				</h1>
 				<div className="properties-container">
 					{properties.map((property, index) => (
@@ -33,7 +34,12 @@ const Properties = () => {
 										{property.bathrooms}
 									</div>
 								</div>
-								<div className="btn primary">View Property</div>
+								<Link
+									to={`/property/${property.id}`}
+									className="flex-center primary btn "
+								>
+									View Property
+								</Link>
 							</div>
 						</div>
 					))}
@@ -43,4 +49,4 @@ const Properties = () => {
 	);
 };
 
-export default Properties;
+export default Property;

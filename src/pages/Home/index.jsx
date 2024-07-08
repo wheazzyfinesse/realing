@@ -3,8 +3,8 @@ import Agents from "../../components/Agents";
 import Hero from "../../components/Hero";
 import Services from "../../components/Services";
 import Clients from "../../components/Clients";
-import Properties from "../../components/Properties";
 import Contact from "../../components/Contact";
+import Property from "../../components/Property";
 
 const Home = () => {
 	return (
@@ -12,7 +12,7 @@ const Home = () => {
 			<Hero />
 			<About />
 			<Services />
-			<Properties />
+			<Property />
 			<Agents />
 			<Clients />
 			<Contact />

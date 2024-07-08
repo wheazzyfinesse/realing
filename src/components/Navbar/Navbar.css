@@ -43,6 +43,19 @@
 	min-height: 100vh;
 	background-color: rgba(1, 1, 1, 0.5);
 }
+.navbar .bookmarks {
+	position: relative;
+}
+.navbar .bookmarks .count {
+	position: absolute;
+	background: var(--destructive);
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	left: 0;
+	text-align: center;
+	margin-top: -20px;
+}
 /* ===================================RESPONSICVENESS============================================== */
 /* DESKTOP===========================================================*/
 @media (max-width: 1200px) {

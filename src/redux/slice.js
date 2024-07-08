@@ -1,6 +1,7 @@
 // src/features/user/userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
+
 // Define thunks for endpoints
 // Define thunks for user
 export const registerUser = createAsyncThunk(
@@ -130,6 +131,9 @@ const initialState = {
 	loading: false,
 	error: null,
 	properties: [],
+	bookmarks: localStorage.getItem("bookmarks")
+		? JSON.parse(localStorage.getItem("bookmarks"))
+		: [],
 	property: null,
 };
 
@@ -137,7 +141,28 @@ const initialState = {
 const userSlice = createSlice({
 	name: "user",
 	initialState,
-	reducers: {},
+	reducers: {
+		addToBookmark: (state, action) => {
+			const existingItem = state.bookmarks.find(
+				(bookmark) => bookmark.id === action.payload.id,
+			);
+
+			if (existingItem) {
+				state.bookmarks = state.bookmarks.map((bookmark) =>
+					bookmark.id === existingItem.id ? action.payload : bookmark,
+				);
+			} else {
+				state.bookmarks = [...state.bookmarks, action.payload];
+				localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+			}
+		},
+
+		removeFromBookmark: (state, action) => {
+			state.bookmarks = state.bookmarks.filter(
+				(bookmark) => bookmark.id !== action.payload,
+			);
+		},
+	},
 	extraReducers: (builder) => {
 		// Handle user-related thunks
 		builder
@@ -251,6 +276,6 @@ const userSlice = createSlice({
 	},
 });
 
-export const { clearUser } = userSlice.actions;
+export const { addToBookmark, removeFromBookmark } = userSlice.actions;
 
 export default userSlice.reducer;

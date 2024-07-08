@@ -1,0 +1,70 @@
+#property .wrapper .heading {
+	font-size: 20px;
+	margin-top: -20px;
+}
+#property .property-container {
+	display: grid;
+	grid-template-columns: 500px auto;
+	gap: 40px;
+}
+#property .property-container .image {
+	height: 500px;
+	border-radius: 10px;
+}
+#property .property-container .property-details {
+	margin: auto;
+	height: 100%;
+	background: var(--bg-secondary);
+	gap: 20px;
+	padding: 40px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+}
+#property .property-container .property-details .info {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	justify-content: space-between;
+	background: var(--bg-accent);
+	padding: 10px;
+	border-radius: 5px;
+}
+#property .property-container .property-details .muted {
+	color: var(--foreground);
+	font-size: 16px;
+}
+#property .property-container .property-details .price {
+	color: var(--primary-accent);
+	font-size: 25px;
+}
+#property .property-container .property-details .btn {
+	padding: 15px 0px;
+	margin-top: 20px;
+	font-size: 20px;
+	text-align: center;
+}
+#property .property-container .property-details .btn:hover {
+	color: var(--foreground);
+}
+#property .property-container .property-details .btn.bookmark {
+	width: 20%;
+	margin: auto;
+}
+/* ===================================RESPONSIVENESS============================================== */
+/* MEDIUM===========================================================*/
+@media (max-width: 900px) {
+	#property .property-container {
+		grid-template-columns: repeat(2, 1fr);
+		margin-bottom: 50px;
+	}
+	#property .property-container .property-details {
+		padding: 0px;
+	}
+}
+/* SMALL===========================================================*/
+@media (max-width: 500px) {
+	#property .property-container {
+		grid-template-columns: 100%;
+	}
+}

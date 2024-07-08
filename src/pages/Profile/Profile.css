@@ -1,0 +1,25 @@
+#profile .profile-container {
+	height: 100vh;
+	width: 100%;
+	display: grid;
+	border-radius: 50px;
+	grid-template-columns: 200px auto;
+}
+#profile .profile-container .menu {
+	background: var(--bg-accent);
+	height: 100vh;
+	padding: 20px;
+}
+
+#profile .profile-container .menu .image {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	background: var(--bg-accent);
+}
+
+#profile .profile-container .content {
+	background: var(--bg-secondary);
+	height: 100vh;
+	padding: 20px 40px;
+}

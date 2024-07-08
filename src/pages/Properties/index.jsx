@@ -1,7 +1,7 @@
 import "./Properties.css";
-
+import Property from "../../components/Property";
 const Properties = () => {
-	return <div>Properties</div>;
+	return <Property />;
 };
 
 export default Properties;

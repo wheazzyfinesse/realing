@@ -1,14 +1,19 @@
-import "./Register.css";
+import "./Account.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../../redux/zod";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/slice";
-const Register = () => {
-	const { register, handleSubmit, errors } = useForm({
+const Account = () => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
 		resolver: zodResolver(registerSchema),
 	});
+	console.log(errors);
 	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
@@ -58,22 +63,9 @@ const Register = () => {
 						REGISTER
 					</button>
 				</form>
-				<div className="buttons-container">
-					<h1 className=" gradient-text">OR</h1>
-
-					<span className="socials">Register with social accounts</span>
-					<div className="flex-center">
-						<button className="btn">Google</button>
-						<button className="btn">Facebook</button>
-					</div>
-					<Link to="/forgotpassword">Forgot Password?</Link>
-					<p className="register-link">
-						Already have an account? <Link to="/login">Login</Link>
-					</p>
-				</div>
 			</div>
 		</div>
 	);
 };
 
-export default Register;
+export default Account;

@@ -14,7 +14,7 @@ const Navbar = () => {
 	const auth = path.pathname === "/";
 	const [sidebar, setSidebar] = useState(false);
 	const [mobile, setMobile] = useState(window.innerWidth <= 500);
-	const { userInfo } = useSelector((state) => state.user);
+	const { userInfo, bookmarks } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -125,9 +125,12 @@ const Navbar = () => {
 				)}
 
 				{userInfo && (
-					<Link to="/profile" className="btn">
-						<CiUser />
-					</Link>
+					<div className="bookmarks">
+						<Link to="/profile" className="btn">
+							<CiUser />
+						</Link>
+						<span className="count">{bookmarks.length}</span>
+					</div>
 				)}
 				<Link
 					to="/login"

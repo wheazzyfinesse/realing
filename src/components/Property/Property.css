@@ -39,7 +39,23 @@
 	margin: 10px 0;
 }
 #properties .property .bottom .row {
-	margin-bottom: 15px;
+	margin: 15px;
+	gap: 30px;
+}
+
+#properties .property .bottom .btn {
+	width: 100%;
+	color: var(--warning);
+	transition: var(--transition);
+}
+#properties .property .bottom .btn.primary {
+	background: var(--gradient);
+	transition: var(--transition);
+	color: var(--foreground);
+}
+#properties .property .bottom .btn.primary:hover {
+	background: var(--primary);
+	color: var(--foreground);
 }
 /* ===================================RESPONSIVENESS============================================== */
 /* MEDIUM===========================================================*/
