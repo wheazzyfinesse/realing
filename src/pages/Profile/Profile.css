@@ -1,14 +1,12 @@
 #profile .profile-container {
-	height: 100vh;
 	width: 100%;
 	display: grid;
 	border-radius: 50px;
 	grid-template-columns: 200px auto;
 }
 #profile .profile-container .menu {
-	background: var(--bg-accent);
-	height: 100vh;
 	padding: 20px;
+	width: 100%;
 }
 
 #profile .profile-container .menu .image {
@@ -19,7 +17,59 @@
 }
 
 #profile .profile-container .content {
-	background: var(--bg-secondary);
-	height: 100vh;
-	padding: 20px 40px;
+	border: 1px solid var(--border-secondary);
+	border-radius: 50px;
+	width: 100%;
+}
+#profile .profile-container .menu .disabled {
+	color: var(--foreground);
+	border-radius: 5px;
+	padding: 10px;
+}
+#profile .profile-container .menu .active {
+	background: var(--bg-accent);
+	color: var(--foreground);
+	border-radius: 5px;
+	padding: 10px;
+}
+/* ===================================RESPONSIVENESS============================================== */
+/* MEDIUM===========================================================*/
+@media (max-width: 900px) {
+	#profile .profile-container {
+		width: 100%;
+		display: grid;
+		border-radius: 50px;
+		grid-template-columns: 100%;
+	}
+	#profile .profile-container .menu {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 20px;
+	}
+	ul li {
+		text-align: left;
+		gap: 20px;
+	}
+	#profile .profile-container .content {
+		border-radius: 20px;
+	}
+	#profile .profile-container .menu ul li {
+		gap: 5px;
+		font-size: 16px;
+	}
+}
+/* SMALL===========================================================*/
+@media (max-width: 600px) {
+	#profile .profile-container .menu {
+		flex-direction: column;
+	}
+	#profile .profile-container .menu ul {
+		display: flex;
+		gap: 5px;
+	}
+	#profile .profile-container .menu ul li {
+		gap: 5px;
+		font-size: 12px;
+	}
 }

@@ -22,7 +22,7 @@ const registerSchema = baseSchema
 		path: ["confirmPassword"], // Path of error
 	});
 
-// Schema for register
+// Schema for profile
 const profileSchema = z
 	.object({
 		email: z.string().email({ message: "Invalid email address" }).optional(),

@@ -17,7 +17,6 @@ const Login = () => {
 
 	const loginHandler = (credentials) => {
 		dispatch(loginUser(credentials));
-		navigate("/properties");
 	};
 
 	return (

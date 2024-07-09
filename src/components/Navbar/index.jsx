@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Link as LinkScroll } from "react-scroll";
 import { useDispatch, useSelector } from "react-redux";
-import { CiUser } from "react-icons/ci";
 import { logoutUser } from "../../redux/slice";
+import { FaRegUser } from "react-icons/fa";
 const Navbar = () => {
 	const path = useLocation();
 	const auth = path.pathname === "/";
@@ -125,12 +125,14 @@ const Navbar = () => {
 				)}
 
 				{userInfo && (
-					<div className="bookmarks">
-						<Link to="/profile" className="btn">
-							<CiUser />
-						</Link>
-						<span className="count">{bookmarks.length}</span>
-					</div>
+					<>
+						<div className="bookmarks">
+							<Link to="/profile" className="btn">
+								<FaRegUser />
+							</Link>
+							<span className="count">{bookmarks.length}</span>
+						</div>
+					</>
 				)}
 				<Link
 					to="/login"

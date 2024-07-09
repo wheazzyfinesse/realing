@@ -29,7 +29,8 @@ export const loginUser = createAsyncThunk(
 			const response = await dispatch(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
-			if (!response) {
+			console.log(response);
+			if (response.error) {
 				return rejectWithValue("Failed to login");
 			} else {
 				return response;
@@ -48,6 +49,24 @@ export const logoutUser = createAsyncThunk(
 			return;
 		} catch (error) {
 			return rejectWithValue(error);
+		}
+	},
+);
+export const updateProfile = createAsyncThunk(
+	"user/updateUser",
+	async (credentials, { dispatch, rejectWithValue }) => {
+		console.log("first");
+		try {
+			const response = await dispatch(
+				apiSlice.endpoints.update.initiate(credentials),
+			).unwrap();
+			if (response.error) {
+				return rejectWithValue("Failed to update");
+			} else {
+				return response;
+			}
+		} catch (error) {
+			return rejectWithValue(error.data.message);
 		}
 	},
 );
@@ -130,6 +149,7 @@ const initialState = {
 		: null, // Initial user state from local storage
 	loading: false,
 	error: null,
+	success: false,
 	properties: [],
 	bookmarks: localStorage.getItem("bookmarks")
 		? JSON.parse(localStorage.getItem("bookmarks"))
@@ -168,86 +188,122 @@ const userSlice = createSlice({
 		builder
 			.addCase(registerUser.pending, (state) => {
 				state.loading = true;
+				state.success = false;
 				state.error = null;
 			})
 			.addCase(registerUser.fulfilled, (state, action) => {
 				state.loading = false;
+				state.success = true;
 				state.userInfo = action.payload;
 				localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
 			})
 			.addCase(registerUser.rejected, (state, action) => {
 				state.loading = false;
+				state.success = false;
 				state.error = action.payload || "Registration failed";
 			})
 			.addCase(loginUser.pending, (state) => {
 				state.loading = true;
+				state.success = false;
 				state.error = null;
 			})
 			.addCase(loginUser.fulfilled, (state, action) => {
 				state.loading = false;
+				state.success = true;
 				state.userInfo = action.payload;
 				localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.loading = false;
+				state.success = false;
 				state.error = action.payload || "Login failed";
 			})
 			.addCase(logoutUser.pending, (state) => {
 				state.loading = true;
+				state.success = false;
 				state.error = null;
 			})
 			.addCase(logoutUser.fulfilled, (state) => {
 				state.loading = false;
+				state.success = true;
 				state.userInfo = null;
 				localStorage.removeItem("userInfo");
 			})
 			.addCase(logoutUser.rejected, (state, action) => {
 				state.loading = false;
+				state.success = false;
 				state.error = action.payload || "Logout failed";
+			})
+			.addCase(updateProfile.pending, (state) => {
+				state.loading = true;
+				state.success = false;
+				state.error = null;
+			})
+			.addCase(updateProfile.fulfilled, (state, action) => {
+				state.loading = false;
+				state.success = true;
+				state.userInfo = action.payload;
+				localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
+			})
+			.addCase(updateProfile.rejected, (state, action) => {
+				state.loading = false;
+				state.success = false;
+				state.error = action.payload || "Update failed";
 			})
 			// Handle properties-related thunks
 			.addCase(fetchProperties.pending, (state) => {
 				state.loading = true;
+				state.success = false;
 				state.error = null;
 			})
 			.addCase(fetchProperties.fulfilled, (state, action) => {
 				state.loading = false;
+				state.success = true;
 				state.properties = action.payload;
 			})
 			.addCase(fetchProperties.rejected, (state, action) => {
 				state.loading = false;
+				state.success = false;
 				state.error = action.payload || "Fetching properties failed";
 			})
 			.addCase(fetchProperty.pending, (state) => {
 				state.loading = true;
+				state.success = false;
 				state.error = null;
 			})
 			.addCase(fetchProperty.fulfilled, (state, action) => {
 				state.loading = false;
+				state.success = true;
 				state.property = action.payload;
 			})
 			.addCase(fetchProperty.rejected, (state, action) => {
 				state.loading = false;
+				state.success = false;
 				state.error = action.payload || "Fetching property failed";
 			})
 			.addCase(createProperty.pending, (state) => {
 				state.loading = true;
+				state.success = false;
 				state.error = null;
 			})
 			.addCase(createProperty.fulfilled, (state, action) => {
 				state.loading = false;
+				state.success = true;
 				state.properties.push(action.payload);
 			})
 			.addCase(createProperty.rejected, (state, action) => {
 				state.loading = false;
+				state.success = false;
 				state.error = action.payload || "Creating property failed";
 			})
 			.addCase(updateProperty.pending, (state) => {
 				state.loading = true;
+				state.success = false;
 				state.error = null;
 			})
 			.addCase(updateProperty.fulfilled, (state, action) => {
 				state.loading = false;
+				state.success = true;
 				const index = state.properties.findIndex(
 					(p) => p.id === action.payload.id,
 				);
@@ -257,20 +313,24 @@ const userSlice = createSlice({
 			})
 			.addCase(updateProperty.rejected, (state, action) => {
 				state.loading = false;
+				state.success = false;
 				state.error = action.payload || "Updating property failed";
 			})
 			.addCase(deleteProperty.pending, (state) => {
 				state.loading = true;
+				state.success = false;
 				state.error = null;
 			})
 			.addCase(deleteProperty.fulfilled, (state, action) => {
 				state.loading = false;
+				state.success = true;
 				state.properties = state.properties.filter(
 					(p) => p.id !== action.payload.id,
 				);
 			})
 			.addCase(deleteProperty.rejected, (state, action) => {
 				state.loading = false;
+				state.success = false;
 				state.error = action.payload || "Deleting property failed";
 			});
 	},
