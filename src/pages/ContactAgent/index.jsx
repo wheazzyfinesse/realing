@@ -1,9 +1,24 @@
 import { useParams } from "react-router";
 import "./ContactAgent.css";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { enquirySchema } from "../../redux/zod";
+import { useDispatch } from "react-redux";
+import { makeEnquiry } from "../../redux/slice";
 
 const ContactAgent = () => {
 	const { id } = useParams();
-	console.log(id);
+	const dispatch = useDispatch();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
+		resolver: zodResolver(enquirySchema),
+	});
+	const makeEnquiryHandler = (formData) => {
+		dispatch(makeEnquiry(formData));
+	};
 	return (
 		<section id="contact">
 			<div className="wrapper">
@@ -18,44 +33,47 @@ const ContactAgent = () => {
 							as fast as possible
 						</p>
 					</div>
-					<div className="middle">
-						<div className="flex row">
-							<input
-								type="text"
-								placeholder="First name"
-								name="firstname"
+					<form onSubmit={handleSubmit(makeEnquiryHandler)}>
+						<div className="middle">
+							<div className="row">
+								<div className="middle-top">
+									<input
+										{...register("subject")}
+										type="text"
+										placeholder="Subject: Interested"
+										className="control"
+									/>
+									{errors?.subject && (
+										<p className="error">{errors.subject.message}</p>
+									)}
+								</div>
+								<div className="middle-top">
+									<input
+										{...register("phone")}
+										type="tel"
+										placeholder="Phone number"
+										className="control"
+									/>
+									{errors?.phone && (
+										<p className="error">{errors.phone.message}</p>
+									)}
+								</div>
+							</div>
+							<textarea
+								{...register("message")}
+								placeholder="I am interested in this property"
 								className="control"
 							/>
-							<input
-								type="text"
-								placeholder="Last name"
-								name="lastname"
-								className="control"
-							/>
+							{errors?.message && (
+								<p className="error">{errors.message.message}</p>
+							)}
 						</div>
-						<div className="flex row">
-							<input
-								type="email"
-								placeholder="Email"
-								name="email"
-								className="control"
-							/>
-							<input
-								type="tel"
-								placeholder="Phone number"
-								name="phone"
-								className="control"
-							/>
+						<div className="flex-center bottom">
+							<button type="submit" className="btn primary">
+								Submit
+							</button>
 						</div>
-						<textarea
-							placeholder="Leave a message"
-							name="message"
-							className="control"
-						/>
-					</div>
-					<div className="flex-center bottom">
-						<button className="btn primary">Submit</button>
-					</div>
+					</form>
 				</div>
 			</div>
 		</section>

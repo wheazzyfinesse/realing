@@ -1,6 +1,7 @@
 // src/features/user/userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
+import { toast } from "react-toastify";
 
 // Define thunks for endpoints
 // Define thunks for user
@@ -29,7 +30,6 @@ export const loginUser = createAsyncThunk(
 			const response = await dispatch(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
-			console.log(response);
 			if (response.error) {
 				return rejectWithValue("Failed to login");
 			} else {
@@ -55,14 +55,16 @@ export const logoutUser = createAsyncThunk(
 export const updateProfile = createAsyncThunk(
 	"user/updateUser",
 	async (credentials, { dispatch, rejectWithValue }) => {
-		console.log("first");
 		try {
 			const response = await dispatch(
 				apiSlice.endpoints.update.initiate(credentials),
 			).unwrap();
+
 			if (response.error) {
+				toast.error("Profile update failed");
 				return rejectWithValue("Failed to update");
 			} else {
+				toast.success("Profile updated successfully");
 				return response;
 			}
 		} catch (error) {
@@ -135,6 +137,22 @@ export const deleteProperty = createAsyncThunk(
 			const response = await dispatch(
 				apiSlice.endpoints.deleteProperty.initiate(id),
 			).unwrap();
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error.data);
+		}
+	},
+);
+
+// Enquiry thunks
+export const makeEnquiry = createAsyncThunk(
+	"properties/createProperty",
+	async (enquiry, { dispatch, rejectWithValue }) => {
+		try {
+			const response = await dispatch(
+				apiSlice.endpoints.makeEnquiry.initiate(enquiry),
+			).unwrap();
+			console.log(response);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.data);
@@ -227,6 +245,8 @@ const userSlice = createSlice({
 				state.loading = false;
 				state.success = true;
 				state.userInfo = null;
+				state.bookmarks = null;
+				localStorage.removeItem("bookmarks");
 				localStorage.removeItem("userInfo");
 			})
 			.addCase(logoutUser.rejected, (state, action) => {

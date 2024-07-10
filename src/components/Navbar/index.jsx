@@ -14,11 +14,13 @@ const Navbar = () => {
 	const auth = path.pathname === "/";
 	const [sidebar, setSidebar] = useState(false);
 	const [mobile, setMobile] = useState(window.innerWidth <= 500);
+	const [tablet, setTablet] = useState(window.innerWidth <= 900);
 	const { userInfo, bookmarks } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setMobile(window.innerWidth <= 500);
+		setTablet(window.innerWidth <= 900);
 	}, [window.innerWidth]);
 
 	return (
@@ -35,7 +37,7 @@ const Navbar = () => {
 						to={`/${tab.id}`}
 						smooth="true"
 						className="tab"
-						activeclass="active"
+						activeClassName="active"
 						key={index}
 						onClick={() => setSidebar(false)}
 					>
@@ -43,23 +45,14 @@ const Navbar = () => {
 					</Link>
 				))}
 
-				{mobile && (
+				{(tablet || mobile) && (
 					<>
 						{userInfo?.isAdmin && (
 							<>
 								<Link
 									to="/profile"
 									className="tab"
-									activeclass="active"
-									onClick={() => setSidebar(false)}
-								>
-									Profile
-								</Link>
-
-								<Link
-									to="/profile"
-									className="tab"
-									activeclass="active"
+									activeClassName="active"
 									onClick={() => setSidebar(false)}
 								>
 									Add Property Listing
@@ -67,7 +60,7 @@ const Navbar = () => {
 								<Link
 									to="/profile"
 									className="tab"
-									activeclass="active"
+									activeClassName="active"
 									onClick={() => setSidebar(false)}
 								>
 									Manage Properties
@@ -75,7 +68,7 @@ const Navbar = () => {
 								<Link
 									to="/profile"
 									className="tab"
-									activeclass="active"
+									activeClassName="active"
 									onClick={() => setSidebar(false)}
 								>
 									Manage Users
@@ -83,7 +76,7 @@ const Navbar = () => {
 								<Link
 									to="/profile"
 									className="tab"
-									activeclass="active"
+									activeClassName="active"
 									onClick={() => setSidebar(false)}
 								>
 									Manage Enquiries
@@ -100,7 +93,7 @@ const Navbar = () => {
 									setSidebar(false);
 								}
 							}}
-							className="btn primary btn-menu"
+							className={`btn primary btn-menu ${tablet && "tablet"}`}
 						>
 							{userInfo ? "Log out" : "Log in"}
 						</Link>
@@ -130,7 +123,7 @@ const Navbar = () => {
 							<Link to="/profile" className="btn">
 								<FaRegUser />
 							</Link>
-							<span className="count">{bookmarks.length}</span>
+							<span className="count">{bookmarks?.length ?? "0"}</span>
 						</div>
 					</>
 				)}

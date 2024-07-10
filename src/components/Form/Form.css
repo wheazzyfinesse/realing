@@ -3,7 +3,7 @@
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
-	margin: 20px 0px;
+	margin-bottom: 20px;
 }
 .form-wrapper .form-container {
 	width: 100%;
@@ -12,10 +12,70 @@
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-	margin-top: 40px;
 }
 .form-wrapper .gradient-text {
 	font-size: 30px;
+}
+
+.form-container .input-container {
+	width: 55%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 20px;
+	background: var(--bg-accent);
+}
+
+.form-container .input-container .input {
+	display: flex;
+	width: 100%;
+	height: 30px;
+	padding: 10px;
+	background: var(--bg-primary);
+	border-radius: 5px;
+	color: var(--foreground);
+	font-size: 14px;
+	overflow: hidden;
+	transition: var(--transition);
+	border: 0.5px solid var(--bg-accent);
+	resize: none;
+}
+.form-container .input-container .input:hover {
+	border-color: var(--primary);
+}
+.form-container .input-container .icon {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	transition: var(--transition);
+	gap: 10px;
+}
+.form-container .input-container .icon .cancel {
+	color: var(--muted);
+}
+.form-container .input-container .icon .cancel:hover {
+	color: var(--destructive);
+	background: var(--bg-secondary);
+}
+.form-container .input-container .icon .save {
+	background: var(--bg-accent);
+	color: var(--success);
+}
+.form-container .input-container .icon .save:hover {
+	background: var(--bg-secondary);
+	color: var(--success-accent);
+}
+.form-container .input-container .icon .loader {
+	color: var(--primary-accent);
+}
+.form-container .error {
+	color: var(--destructive);
+}
+.info-container .edit {
+	color: var(--primary);
+}
+.info-container .edit:hover {
+	color: var(--foreground);
 }
 .form-wrapper .info-container {
 	width: 50%;
@@ -36,6 +96,9 @@
 	.form-wrapper .info-container {
 		width: 70%;
 	}
+	.form-container .input-container {
+		width: 80%;
+	}
 }
 /* SMALL===========================================================*/
 @media (max-width: 600px) {
@@ -44,5 +107,8 @@
 	}
 	.form-wrapper {
 		padding: 10px;
+	}
+	.form-container .input-container {
+		width: 100%;
 	}
 }

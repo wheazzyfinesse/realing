@@ -93,6 +93,14 @@ const categorySchema = z.object({
 const searchSchema = z.object({
 	key: z.string().min(1, { message: "search word is required" }),
 });
+const enquirySchema = z.object({
+	subject: z.string().min(4, { message: "Enquiry must have a subject" }),
+	phone: z
+		.string()
+		.min(9, { message: "Phone number must be at least 9 digits long" })
+		.regex(/^\d+$/, { message: "Invalid phone number" }),
+	message: z.string().min(20, { message: "Enquiry must have a Message" }),
+});
 
 export {
 	baseSchema,
@@ -102,4 +110,5 @@ export {
 	categorySchema,
 	optionalProductSchema,
 	searchSchema,
+	enquirySchema,
 };

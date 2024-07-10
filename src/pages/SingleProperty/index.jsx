@@ -19,7 +19,7 @@ const SingleProperty = () => {
 	const dispatch = useDispatch();
 	const { userInfo, bookmarks } = useSelector((state) => state.user);
 	const property = properties.find((p) => p.id === Number(id));
-	const bookmarked = bookmarks.filter(
+	const bookmarked = bookmarks?.filter(
 		(bookmark) => bookmark.id === property.id,
 	);
 

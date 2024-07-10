@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
 import "./Profile.css";
+import { useSelector } from "react-redux";
 import Bookmarks from "./Bookmarks";
 import Enquiries from "./Enquiries";
 import { useState } from "react";
@@ -7,7 +7,7 @@ import Form from "../../components/Form";
 
 const Profile = () => {
 	const [tab, setTab] = useState("account");
-	const { userInfo, bookmarks } = useSelector((state) => state.user);
+	const { userInfo } = useSelector((state) => state.user);
 
 	return (
 		<section id="profile">
@@ -36,12 +36,43 @@ const Profile = () => {
 							>
 								Enquiries
 							</li>
+							{userInfo?.isAdmin && (
+								<>
+									<li
+										className={tab === "admin" ? "active" : "disabled"}
+										onClick={() => setTab("adminadd")}
+									>
+										Add Property Listing
+									</li>
+									<li
+										className={tab === "admin" ? "active" : "disabled"}
+										onClick={() => setTab("adminproperty")}
+									>
+										Manage Property listings
+									</li>
+									<li
+										className={tab === "admin" ? "active" : "disabled"}
+										onClick={() => setTab("adminusers")}
+									>
+										Manage Users
+									</li>
+									<li
+										className={tab === "admin" ? "active" : "disabled"}
+										onClick={() => setTab("adminenquiries")}
+									>
+										Manage Enquiries
+									</li>
+								</>
+							)}
 						</ul>
 					</div>
 					<div className="content">
-						{tab === "account" && <Form userInfo={userInfo} />}
-						{tab === "bookmarks" && <Bookmarks bookmarks={bookmarks} />}
+						{tab === "account" && <Form />}
+						{tab === "bookmarks" && <Bookmarks />}
 						{tab === "enquiries" && <Enquiries />}
+						{/* {tab === "adminadd" && <AddProperty />}
+						{tab === "adminproperties" && <ManageProperty />}
+						{tab === "adminenquiries" && <ManageUsers />} */}
 					</div>
 				</div>
 			</div>

@@ -2,8 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
 	reducerPath: "api",
-	// baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
-	baseQuery: fetchBaseQuery({ baseUrl: "https://realingapi.vercel.app/api/" }),
+	baseQuery: fetchBaseQuery({
+		baseUrl: "http://localhost:5000/api/",
+		credentials: "include",
+	}),
+	// baseQuery: fetchBaseQuery({ baseUrl: "https://realingapi.vercel.app/api/" }),
 	endpoints: (builder) => ({
 		register: builder.mutation({
 			query: (credentials) => ({
@@ -74,7 +77,7 @@ export const apiSlice = createApi({
 		getEnquiry: builder.query({
 			query: (id) => `enquiries/${id}`,
 		}),
-		addEnquiry: builder.mutation({
+		makeEnquiry: builder.mutation({
 			query: (enquiry) => ({
 				url: "enquiries",
 				method: "POST",
@@ -110,7 +113,7 @@ export const {
 	useDeletePropertyMutation,
 	useGetEnquiriesQuery,
 	useGetEnquiryQuery,
-	useAddEnquiryMutation,
+	useMakeEnquiryMutation,
 	useUpdateEnquiryMutation,
 	useDeleteEnquiryMutation,
 } = apiSlice;
