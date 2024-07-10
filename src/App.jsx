@@ -19,6 +19,9 @@ import NotFound from "./pages/NotFound";
 import SingleProperty from "./pages/SingleProperty";
 import ContactAgent from "./pages/ContactAgent";
 import { useSelector } from "react-redux";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
 	const { userInfo } = useSelector((state) => state.user);
 	useEffect(() => {
@@ -29,6 +32,7 @@ function App() {
 	}, []);
 	return (
 		<Router>
+			<ToastContainer />;
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />

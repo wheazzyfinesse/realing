@@ -6,7 +6,10 @@ export const apiSlice = createApi({
 		baseUrl: "http://localhost:5000/api/",
 		credentials: "include",
 	}),
-	// baseQuery: fetchBaseQuery({ baseUrl: "https://realingapi.vercel.app/api/" }),
+	// baseQuery: fetchBaseQuery({
+	// 	baseUrl: "https://realingapi.vercel.app/api/",
+	// 	credentials: "include",
+	// }),
 	endpoints: (builder) => ({
 		register: builder.mutation({
 			query: (credentials) => ({

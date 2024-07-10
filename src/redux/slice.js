@@ -31,11 +31,14 @@ export const loginUser = createAsyncThunk(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
 			if (response.error) {
+				toast.error("Invalid credentials");
 				return rejectWithValue("Failed to login");
 			} else {
+				toast.success("Logged in successfully");
 				return response;
 			}
 		} catch (error) {
+			toast.error("Invalid credentials");
 			return rejectWithValue(error.data.message);
 		}
 	},
@@ -46,8 +49,10 @@ export const logoutUser = createAsyncThunk(
 	async (_, { dispatch, rejectWithValue }) => {
 		try {
 			await dispatch(apiSlice.endpoints.logout.initiate()).unwrap();
+			toast.success("Logged out successfully");
 			return;
 		} catch (error) {
+			toast.error("Failed to logout");
 			return rejectWithValue(error);
 		}
 	},
