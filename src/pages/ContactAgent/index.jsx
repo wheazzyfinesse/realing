@@ -1,13 +1,17 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import "./ContactAgent.css";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { enquirySchema } from "../../redux/zod";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addEnquiry } from "../../redux/slice";
+import { toast } from "react-toastify";
+import { ImSpinner3 } from "react-icons/im";
 
 const ContactAgent = () => {
+	const { loading, error } = useSelector((state) => state.user);
 	const { id } = useParams();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const {
 		register,
@@ -17,7 +21,12 @@ const ContactAgent = () => {
 		resolver: zodResolver(enquirySchema),
 	});
 	const addEnquiryHandler = (formData) => {
-		dispatch(addEnquiry(formData));
+		dispatch(addEnquiry({ id, formData }));
+		if (error) {
+			return;
+		} else {
+			navigate("/properties");
+		}
 	};
 	return (
 		<section id="contact">
@@ -70,7 +79,11 @@ const ContactAgent = () => {
 						</div>
 						<div className="flex-center bottom">
 							<button type="submit" className="btn primary">
-								Submit
+								{loading ? (
+									<ImSpinner3 size={20} className=" icon-wrapper loader" />
+								) : (
+									"Submit"
+								)}
 							</button>
 						</div>
 					</form>

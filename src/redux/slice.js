@@ -15,7 +15,7 @@ export const registerUser = createAsyncThunk(
 			toast.success("Your registration was successful");
 			return res;
 		} catch (error) {
-			toast.error(error.message);
+			toast.error(error.data);
 			return rejectWithValue(error.data);
 		}
 	},
@@ -28,11 +28,10 @@ export const loginUser = createAsyncThunk(
 			const res = await dispatch(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
-
-			toast.success("Logged in successfully");
+			toast.success(`${res.username}! You logged in successfully`);
 			return res;
 		} catch (error) {
-			toast.error(error);
+			toast.error(error.data);
 			return rejectWithValue(error.data);
 		}
 	},
@@ -46,7 +45,7 @@ export const logoutUser = createAsyncThunk(
 			toast.success("Logged out successfully");
 			return;
 		} catch (error) {
-			toast.error(error);
+			toast.error(error.data);
 			return rejectWithValue(error.data);
 		}
 	},
@@ -56,7 +55,7 @@ export const updateProfile = createAsyncThunk(
 	async (credentials, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.update.initiate(credentials),
+				apiSlice.endpoints.updateProfile.initiate(credentials),
 			).unwrap();
 
 			if (res.error) {
@@ -67,7 +66,7 @@ export const updateProfile = createAsyncThunk(
 				return res;
 			}
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue(error.data);
 		}
 	},
 );

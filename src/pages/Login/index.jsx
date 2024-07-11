@@ -18,9 +18,9 @@ const Login = () => {
 
 	const { loading, error } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
-
 	const loginHandler = (credentials) => {
 		dispatch(loginUser(credentials));
+		error ? "/login" : navigate("/properties");
 	};
 
 	return (

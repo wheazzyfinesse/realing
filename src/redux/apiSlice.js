@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
 	reducerPath: "api",
 	baseQuery: fetchBaseQuery({
-		baseUrl: "http://localhost:5000/api/",
-		// baseUrl: "http://realing.vercel.app/api/",
+		// baseUrl: "http://localhost:5000/api/",
+		baseUrl: "http://realing.vercel.app/api/",
 		credentials: "include",
 	}),
 	tagTypes: ["User", "Property", "Enquiry"], // Define your tags
@@ -33,7 +33,7 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ["User"],
 		}),
-		update: builder.mutation({
+		updateProfile: builder.mutation({
 			query: (credentials) => ({
 				url: "user/profile",
 				method: "PUT",
@@ -116,8 +116,8 @@ export const apiSlice = createApi({
 			providesTags: (result, error, id) => [{ type: "Enquiry", id }],
 		}),
 		addEnquiry: builder.mutation({
-			query: (enquiry) => ({
-				url: "enquiries",
+			query: ({ id, enquiry }) => ({
+				url: `enquiries/${id}/addenquiry`,
 				method: "POST",
 				body: enquiry,
 			}),
@@ -145,7 +145,7 @@ export const {
 	useRegisterMutation,
 	useLoginMutation,
 	useLogoutMutation,
-	useUpdateMutation,
+	useUpdateProfileMutation,
 	useDeleteMutation,
 	useGetUsersQuery,
 	useGetUserQuery,
@@ -158,7 +158,7 @@ export const {
 	useDeletePropertyMutation,
 	useGetEnquiriesQuery,
 	useGetEnquiryQuery,
-	useMakeEnquiryMutation,
 	useUpdateEnquiryMutation,
 	useDeleteEnquiryMutation,
+	useAddEnquiryMutation,
 } = apiSlice;
