@@ -251,6 +251,10 @@ const userSlice = createSlice({
 	initialState,
 	reducers: {
 		addToBookmark: (state, action) => {
+			if (!state.bookmarks) {
+				state.bookmarks = [];
+			}
+
 			const existingItem = state.bookmarks.find(
 				(bookmark) => bookmark._id === action.payload._id,
 			);
@@ -260,11 +264,12 @@ const userSlice = createSlice({
 					bookmark._id === existingItem._id ? action.payload : bookmark,
 				);
 			} else {
-				state.bookmarks = [...state.bookmarks, action.payload];
-				localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+				state.bookmarks.push(action.payload);
 			}
-		},
 
+			// Update local storage
+			localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+		},
 		removeFromBookmark: (state, action) => {
 			state.bookmarks = state.bookmarks.filter(
 				(bookmark) => bookmark._id !== action.payload,

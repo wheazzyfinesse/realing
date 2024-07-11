@@ -11,29 +11,44 @@ import {
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToBookmark, removeFromBookmark } from "../../redux/slice";
+import {
+	addToBookmark,
+	getProperty,
+	removeFromBookmark,
+} from "../../redux/slice";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const SingleProperty = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
-	const { userInfo, bookmarks, properties } = useSelector(
-		(state) => state.user,
-	);
-	const property = properties.find((property) => property._id === id);
-	const bookmarked = bookmarks?.filter(
-		(bookmark) => bookmark._id === property._id,
-	);
-
+	const { userInfo, property, bookmarks } = useSelector((state) => state.user);
+	const bookmarked = bookmarks?.find((bookmark) => bookmark._id === id);
 	const addBookmarkHandler = () => {
 		dispatch(addToBookmark(property));
 		toast.success("Property bookmarked successfully!");
 	};
 	const removeBookmarkHandler = () => {
-		dispatch(removeFromBookmark(property.id));
+		dispatch(removeFromBookmark(property._id));
 		toast.warning("Property removed from bookmarks successfully!");
 	};
+	useEffect(() => {
+		const fetchProperty = async () => {
+			try {
+				const result = await dispatch(getProperty(id)).unwrap();
 
+				if (!result) {
+					console.error("Error loading property");
+					return;
+				}
+			} catch (error) {
+				return;
+			}
+		};
+
+		fetchProperty();
+	}, [id, dispatch]);
+	if (!property) return <p>ERROR LOADING PROPERTY</p>;
 	return (
 		<section id="property">
 			<div className="wrapper">
@@ -66,7 +81,7 @@ const SingleProperty = () => {
 						</div>
 						{userInfo && (
 							<div className="btn bookmark">
-								{bookmarked?.length > 0 ? (
+								{bookmarked ? (
 									<FaBookmark size={30} onClick={removeBookmarkHandler} />
 								) : (
 									<FaRegBookmark size={30} onClick={addBookmarkHandler} />
