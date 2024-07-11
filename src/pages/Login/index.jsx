@@ -7,7 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../redux/slice";
 
 const Login = () => {
-	const { register, handleSubmit, errors } = useForm({
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({
 		resolver: zodResolver(baseSchema),
 	});
 	const navigate = useNavigate();
@@ -26,22 +30,23 @@ const Login = () => {
 					<span className="gradient-text">LOGIN</span>
 				</h1>
 				<form onSubmit={handleSubmit(loginHandler)} className="form-container">
+					{errors?.email && <p className="error">{errors.email.message}</p>}
+
 					<label htmlFor="username">Email</label>
 					<input type="text" {...register("email")} className="control" />
-					{errors?.email && <p className="error">{errors.email.message}</p>}
+					{errors?.password && (
+						<p className="error">{errors.password.message}</p>
+					)}
 					<label htmlFor="password">Password</label>
 					<input
 						type="password"
 						{...register("password")}
 						className="control"
 					/>
-					{errors?.password && (
-						<p className="error">{errors.password.message}</p>
-					)}
+
 					<button type="submit" disabled={loading} className="btn primary">
 						{loading ? "loading..." : "Login"}
 					</button>
-					{error && <p className="error">{error}</p>}
 				</form>
 				<div className="buttons-container">
 					<h1 className=" gradient-text">OR</h1>

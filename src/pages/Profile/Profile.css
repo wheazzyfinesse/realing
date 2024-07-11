@@ -2,7 +2,7 @@
 	width: 100%;
 	display: grid;
 	border-radius: 50px;
-	grid-template-columns: 200px auto;
+	grid-template-columns: 300px auto;
 }
 #profile .profile-container .menu {
 	padding: 20px;
@@ -22,17 +22,23 @@
 	border-radius: 50px;
 	width: 100%;
 }
+#profile .profile-container .menu .icon {
+	display: none;
+}
 #profile .profile-container .menu .disabled {
-	color: var(--foreground);
 	border-radius: 5px;
-	padding: 10px;
+	padding: 5px;
+	font-size: 14px;
+	text-align-last: left;
 }
 #profile .profile-container .menu .active {
 	background: var(--bg-accent);
 	color: var(--foreground);
+	font-size: 14px;
 	border-radius: 5px;
-	padding: 10px;
+	padding: 5px;
 }
+
 /* ===================================RESPONSIVENESS============================================== */
 /* MEDIUM===========================================================*/
 @media (max-width: 900px) {
@@ -64,13 +70,32 @@
 @media (max-width: 600px) {
 	#profile .profile-container .menu {
 		flex-direction: column;
+		width: 100%;
+		margin-bottom: 50px;
+	}
+	#profile .profile-container .menu .icon {
+		display: flex;
 	}
 	#profile .profile-container .menu ul {
 		display: flex;
-		gap: 5px;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		width: 100%;
 	}
 	#profile .profile-container .menu ul li {
 		gap: 5px;
 		font-size: 12px;
+	}
+	#profile .profile-container .admin-menu {
+		display: flex;
+		width: 100%;
+		position: absolute;
+		top: 40px;
+		align-items: center;
+		justify-content: center;
+	}
+	#profile .profile-container .admin-menu.hide {
+		display: none;
 	}
 }

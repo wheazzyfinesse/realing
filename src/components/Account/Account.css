@@ -11,25 +11,39 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 10px;
+	gap: 20px;
 }
 .form-wrapper .gradient-text {
 	font-size: 30px;
 }
 
 .form-container .input-container {
-	width: 55%;
+	width: 65%;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-	gap: 20px;
-	background: var(--bg-accent);
+	flex-direction: column;
+	gap: 10px;
+	border: 1px solid var(--bg-accent);
 }
 
+.form-container .input-container .label {
+	padding: 10px;
+}
+.form-container .input-container .label .cancel {
+	color: var(--muted);
+}
+.form-container .input-container .label .cancel:hover {
+	color: var(--destructive);
+	background: var(--bg-secondary);
+}
+.form-container .input-container .input-div {
+	display: flex;
+	gap: 20px;
+}
 .form-container .input-container .input {
 	display: flex;
 	width: 100%;
-	height: 50px;
+	height: 60px;
 	padding: 10px;
 	border-radius: 5px;
 	color: var(--foreground);
@@ -43,33 +57,23 @@
 .form-container .input-container .input:hover {
 	border-color: var(--primary);
 }
-.form-container .input-container .icon {
+.form-container .input-container .icon-wrapper {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	transition: var(--transition);
-	gap: 10px;
+	justify-content: center;
 }
-.form-container .input-container .icon .cancel {
-	color: var(--muted);
-}
-.form-container .input-container .icon .cancel:hover {
-	color: var(--destructive);
-	background: var(--bg-secondary);
-}
-.form-container .input-container .icon .save {
+
+.form-container .input-container .icon-wrapper:hover {
 	background: var(--bg-accent);
-	color: var(--success);
-}
-.form-container .input-container .icon .save:hover {
-	background: var(--bg-secondary);
 	color: var(--success-accent);
 }
-.form-container .input-container .icon .loader {
+.form-container .input-container .icon-wrapper .loader {
 	color: var(--primary-accent);
 }
 .form-container .error {
 	color: var(--destructive);
+	padding: 0;
+	margin: 0;
 }
 .info-container .edit {
 	color: var(--primary);
@@ -78,8 +82,8 @@
 	color: var(--foreground);
 }
 .form-wrapper .info-container {
-	width: 50%;
-	height: 50px;
+	width: 60%;
+	height: 60px;
 	padding: 0 10px;
 	display: flex;
 	gap: 20px;

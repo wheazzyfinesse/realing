@@ -37,7 +37,6 @@ const Navbar = () => {
 						to={`/${tab.id}`}
 						smooth="true"
 						className="tab"
-						activeClassName="active"
 						key={index}
 						onClick={() => setSidebar(false)}
 					>
@@ -52,7 +51,6 @@ const Navbar = () => {
 								<Link
 									to="/profile"
 									className="tab"
-									activeClassName="active"
 									onClick={() => setSidebar(false)}
 								>
 									Add Property Listing
@@ -60,7 +58,6 @@ const Navbar = () => {
 								<Link
 									to="/profile"
 									className="tab"
-									activeClassName="active"
 									onClick={() => setSidebar(false)}
 								>
 									Manage Properties
@@ -68,7 +65,6 @@ const Navbar = () => {
 								<Link
 									to="/profile"
 									className="tab"
-									activeClassName="active"
 									onClick={() => setSidebar(false)}
 								>
 									Manage Users
@@ -76,7 +72,6 @@ const Navbar = () => {
 								<Link
 									to="/profile"
 									className="tab"
-									activeClassName="active"
 									onClick={() => setSidebar(false)}
 								>
 									Manage Enquiries

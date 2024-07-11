@@ -12,7 +12,7 @@
 	--gradient: linear-gradient(to top left, #0052d4, #4364f7, #6fb1fc);
 	--primary: #0024d6;
 	--primary-accent: #4364f7;
-	--destructive: #7f1d1d;
+	--destructive: #ec4b5e;
 	--warning: #ffa500;
 	--success: #07b13ce5;
 	--success-accent: #0bef53;
@@ -57,7 +57,9 @@ p {
 	font-size: 14px;
 	line-height: 18px;
 }
-
+.error {
+	color: var(--destructive);
+}
 a {
 	color: var(--muted-foreground);
 	text-decoration: none;

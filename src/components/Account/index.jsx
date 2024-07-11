@@ -1,9 +1,9 @@
-import "./Form.css";
+import "./Account.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { profileSchema } from "../../redux/zod"; // Assuming this is the correct schema to use
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfile } from "../../redux/slice"; // Assuming a slice for updating profile
+import { setLoading, updateProfile } from "../../redux/slice"; // Assuming a slice for updating profile
 import { FaEdit, FaRegUser } from "react-icons/fa";
 import React, { useState } from "react";
 import { CiGlobe } from "react-icons/ci";
@@ -16,12 +16,9 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
 import { LuCheck } from "react-icons/lu";
 import { ImSpinner3 } from "react-icons/im";
-import { toast } from "react-toastify";
 
-const Form = () => {
-	const { error, success, loading, userInfo } = useSelector(
-		(state) => state.user,
-	);
+const Account = () => {
+	const { loading, userInfo } = useSelector((state) => state.user);
 	const [editable, setEditable] = useState("");
 	const {
 		register,
@@ -34,8 +31,17 @@ const Form = () => {
 	const dispatch = useDispatch();
 
 	const updateProfileHandler = (formData) => {
-		dispatch(updateProfile(formData));
-		setEditable(null);
+		dispatch(setLoading(true));
+		Object.keys(formData).some((key) => {
+			if (formData[key] !== userInfo[key]) {
+				dispatch(updateProfile(formData));
+				return;
+			} else {
+				dispatch(setLoading(false));
+				setEditable(null);
+				return;
+			}
+		});
 	};
 
 	const excludedFields = [
@@ -69,27 +75,29 @@ const Form = () => {
 					editable === key ? (
 						<React.Fragment key={key}>
 							<div className="input-container">
-								<input
-									className="input"
-									type="text"
-									{...register(key)}
-									placeholder={key}
-									onBlur={() => setEditable(null)}
-								/>
-								<span className="icon">
+								<div className="label">
+									<span>{key}</span>
 									<MdClose
 										size={20}
 										className="cancel"
 										onClick={() => setEditable(null)}
 									/>
+								</div>
+								<div className="input-div">
+									<input
+										className="input"
+										type="text"
+										{...register(key)}
+										placeholder={key}
+									/>
 									{loading ? (
-										<ImSpinner3 size={20} className="loader" />
+										<ImSpinner3 size={20} className=" icon-wrapper loader" />
 									) : (
-										<button type="submit" className="save">
+										<button type="submit" className="icon-wrapper muted">
 											<LuCheck size={20} />
 										</button>
 									)}
-								</span>
+								</div>
 							</div>
 						</React.Fragment>
 					) : (
@@ -116,4 +124,4 @@ const Form = () => {
 	);
 };
 
-export default Form;
+export default Account;

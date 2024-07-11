@@ -12,10 +12,10 @@ const baseSchema = z.object({
 // Schema for register
 const registerSchema = baseSchema
 	.extend({
-		username: z.string().min(1, { message: "Username is required" }),
 		confirmPassword: z.string().min(3, {
-			message: "Confirm Password must be at least 6 characters long",
+			message: "Confirm Password must be the same as your password",
 		}),
+		username: z.string().min(1, { message: "Username is required" }),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
 		message: "Passwords don't match",
@@ -88,28 +88,18 @@ const optionalProductSchema = productSchema.partial({
 });
 
 const propertySchema = z.object({
-	user: z.string().nonempty({ message: "User ID is required" }), // Mongoose ObjectId as a string
-	title: z.string().nonempty({ message: "Title is required" }),
-	image: z.string().nonempty({ message: "Image URL is required" }),
+	title: z.string().min(1, { message: "Title is required" }),
+	image: z.string().min(1, { message: "Image URL is required" }).optional(),
 	price: z.number().min(0, { message: "Price must be a positive number" }),
-	bedrooms: z
-		.string()
-		.nonempty({ message: "Number of bedrooms is required" })
-		.refine((val) => parseInt(val) > 0, {
-			message: "Bedrooms must be at least 1",
-		}),
+	bedrooms: z.number().min(1, { message: "Number of bedrooms is required" }),
 	bathrooms: z
 		.number()
 		.min(1, { message: "Number of bathrooms must be at least 1" }),
-	description: z.string().nonempty({ message: "Description is required" }),
-	location: z.string().nonempty({ message: "Location is required" }),
-	type: z.string().nonempty({ message: "Property type is required" }),
 	squaremeters: z
 		.number()
 		.min(1, { message: "Square meters must be at least 1" }),
-	numEnquiries: z.number().default(0).optional(),
-	createdAt: z.date().optional(),
-	updatedAt: z.date().optional(),
+	description: z.string().min(1, { message: "Description is required" }),
+	location: z.string().min(1, { message: "Location is required" }),
 });
 
 const categorySchema = z.object({

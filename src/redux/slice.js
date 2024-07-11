@@ -9,15 +9,13 @@ export const registerUser = createAsyncThunk(
 	"user/registerUser",
 	async (credentials, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.register.initiate(credentials),
 			).unwrap();
-			if (!response) {
-				return rejectWithValue("Failed to register");
-			} else {
-				return response;
-			}
+			toast.success("Your registration was successful");
+			return res;
 		} catch (error) {
+			toast.error(error.message);
 			return rejectWithValue(error.data);
 		}
 	},
@@ -27,19 +25,15 @@ export const loginUser = createAsyncThunk(
 	"user/loginUser",
 	async (credentials, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
-			if (response.error) {
-				toast.error("Invalid credentials");
-				return rejectWithValue("Failed to login");
-			} else {
-				toast.success("Logged in successfully");
-				return response;
-			}
+
+			toast.success("Logged in successfully");
+			return res;
 		} catch (error) {
-			toast.error("Invalid credentials");
-			return rejectWithValue(error.data.message);
+			toast.error(error);
+			return rejectWithValue(error.data);
 		}
 	},
 );
@@ -52,8 +46,8 @@ export const logoutUser = createAsyncThunk(
 			toast.success("Logged out successfully");
 			return;
 		} catch (error) {
-			toast.error("Failed to logout");
-			return rejectWithValue(error);
+			toast.error(error);
+			return rejectWithValue(error.data);
 		}
 	},
 );
@@ -61,61 +55,63 @@ export const updateProfile = createAsyncThunk(
 	"user/updateUser",
 	async (credentials, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.update.initiate(credentials),
 			).unwrap();
 
-			if (response.error) {
+			if (res.error) {
 				toast.error("Profile update failed");
 				return rejectWithValue("Failed to update");
 			} else {
 				toast.success("Profile updated successfully");
-				return response;
+				return res;
 			}
 		} catch (error) {
-			return rejectWithValue(error.data.message);
+			return rejectWithValue(error.message);
 		}
 	},
 );
 
 // Define thunks for properties
-export const fetchProperties = createAsyncThunk(
-	"properties/fetchProperties",
+export const getProperties = createAsyncThunk(
+	"properties/getProperties",
 	async (_, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.getProperties.initiate(),
 			).unwrap();
-			return response.data;
+			return res;
 		} catch (error) {
 			return rejectWithValue(error.data);
 		}
 	},
 );
 
-export const fetchProperty = createAsyncThunk(
-	"properties/fetchProperty",
+export const getProperty = createAsyncThunk(
+	"properties/getProperty",
 	async (id, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.getProperty.initiate(id),
 			).unwrap();
-			return response.data;
+			return res;
 		} catch (error) {
 			return rejectWithValue(error.data);
 		}
 	},
 );
 
-export const createProperty = createAsyncThunk(
-	"properties/createProperty",
+export const addProperty = createAsyncThunk(
+	"properties/addProperty",
 	async (property, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.addProperty.initiate(property),
 			).unwrap();
-			return response.data;
+			toast.success(`${res.title} Added successfully`);
+			return res;
 		} catch (error) {
+			toast.error(error.data);
 			return rejectWithValue(error.data);
 		}
 	},
@@ -124,12 +120,15 @@ export const createProperty = createAsyncThunk(
 export const updateProperty = createAsyncThunk(
 	"properties/updateProperty",
 	async ({ id, ...property }, { dispatch, rejectWithValue }) => {
+		console.log(property);
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.updateProperty.initiate({ id, ...property }),
 			).unwrap();
-			return response.data;
+			toast.success(`${res.title} updated successfully`);
+			return res;
 		} catch (error) {
+			toast.error(error.data);
 			return rejectWithValue(error.data);
 		}
 	},
@@ -139,11 +138,14 @@ export const deleteProperty = createAsyncThunk(
 	"properties/deleteProperty",
 	async (id, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.deleteProperty.initiate(id),
 			).unwrap();
-			return response.data;
+			alert;
+			toast.success(res);
+			return res;
 		} catch (error) {
+			toast.error(error.data);
 			return rejectWithValue(error.data);
 		}
 	},
@@ -151,14 +153,14 @@ export const deleteProperty = createAsyncThunk(
 
 // Enquiry thunks
 export const makeEnquiry = createAsyncThunk(
-	"properties/createProperty",
+	"properties/addProperty",
 	async (enquiry, { dispatch, rejectWithValue }) => {
 		try {
-			const response = await dispatch(
+			const res = await dispatch(
 				apiSlice.endpoints.makeEnquiry.initiate(enquiry),
 			).unwrap();
-			console.log(response);
-			return response.data;
+			console.log(res);
+			return res;
 		} catch (error) {
 			return rejectWithValue(error.data);
 		}
@@ -172,12 +174,13 @@ const initialState = {
 		: null, // Initial user state from local storage
 	loading: false,
 	error: null,
-	success: false,
 	properties: [],
+	property: {},
+	users: [],
+	user: {},
 	bookmarks: localStorage.getItem("bookmarks")
 		? JSON.parse(localStorage.getItem("bookmarks"))
 		: [],
-	property: null,
 };
 
 // Create the slice
@@ -205,50 +208,45 @@ const userSlice = createSlice({
 				(bookmark) => bookmark.id !== action.payload,
 			);
 		},
+		setLoading: (state, action) => {
+			state.loading = action.payload;
+		},
 	},
 	extraReducers: (builder) => {
 		// Handle user-related thunks
 		builder
 			.addCase(registerUser.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
 			.addCase(registerUser.fulfilled, (state, action) => {
 				state.loading = false;
-				state.success = true;
 				state.userInfo = action.payload;
 				localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
 			})
 			.addCase(registerUser.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Registration failed";
+				state.error = action.payload;
 			})
 			.addCase(loginUser.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
 			.addCase(loginUser.fulfilled, (state, action) => {
 				state.loading = false;
-				state.success = true;
 				state.userInfo = action.payload;
 				localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Login failed";
+				state.error = action.payload;
 			})
 			.addCase(logoutUser.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
 			.addCase(logoutUser.fulfilled, (state) => {
 				state.loading = false;
-				state.success = true;
 				state.userInfo = null;
 				state.bookmarks = null;
 				localStorage.removeItem("bookmarks");
@@ -256,81 +254,66 @@ const userSlice = createSlice({
 			})
 			.addCase(logoutUser.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Logout failed";
+				state.error = action.payload;
 			})
 			.addCase(updateProfile.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
 			.addCase(updateProfile.fulfilled, (state, action) => {
 				state.loading = false;
-				state.success = true;
 				state.userInfo = action.payload;
 				localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
 			})
 			.addCase(updateProfile.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Update failed";
+				state.error = action.payload;
 			})
-			// Handle properties-related thunks
-			.addCase(fetchProperties.pending, (state) => {
+			// Handle admnin user-related thunks
+			.addCase(getUsers.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
-			.addCase(fetchProperties.fulfilled, (state, action) => {
+			.addCase(getUsers.fulfilled, (state, action) => {
 				state.loading = false;
-				state.success = true;
-				state.properties = action.payload;
+				state.users = action.payload;
 			})
-			.addCase(fetchProperties.rejected, (state, action) => {
+			.addCase(getUsers.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Fetching properties failed";
+				state.error = action.payload;
 			})
-			.addCase(fetchProperty.pending, (state) => {
+			.addCase(getUser.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
-			.addCase(fetchProperty.fulfilled, (state, action) => {
+			.addCase(getUser.fulfilled, (state, action) => {
 				state.loading = false;
-				state.success = true;
-				state.property = action.payload;
+				state.user = action.payload;
 			})
-			.addCase(fetchProperty.rejected, (state, action) => {
+			.addCase(getUser.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Fetching property failed";
+				state.error = action.payload;
 			})
-			.addCase(createProperty.pending, (state) => {
+			.addCase(updateUser.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
-			.addCase(createProperty.fulfilled, (state, action) => {
+			.addCase(addProperty.fulfilled, (state, action) => {
 				state.loading = false;
-				state.success = true;
 				state.properties.push(action.payload);
 			})
-			.addCase(createProperty.rejected, (state, action) => {
+			.addCase(addProperty.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Creating property failed";
+				state.error = action.payload;
 			})
 			.addCase(updateProperty.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
 			.addCase(updateProperty.fulfilled, (state, action) => {
 				state.loading = false;
-				state.success = true;
 				const index = state.properties.findIndex(
-					(p) => p.id === action.payload.id,
+					(property) => property._id === action.payload.id,
 				);
 				if (index !== -1) {
 					state.properties[index] = action.payload;
@@ -338,29 +321,95 @@ const userSlice = createSlice({
 			})
 			.addCase(updateProperty.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Updating property failed";
+				state.error = action.payload;
 			})
 			.addCase(deleteProperty.pending, (state) => {
 				state.loading = true;
-				state.success = false;
 				state.error = null;
 			})
 			.addCase(deleteProperty.fulfilled, (state, action) => {
 				state.loading = false;
-				state.success = true;
 				state.properties = state.properties.filter(
-					(p) => p.id !== action.payload.id,
+					(property) => property._id !== action.payload.id,
 				);
 			})
 			.addCase(deleteProperty.rejected, (state, action) => {
 				state.loading = false;
-				state.success = false;
-				state.error = action.payload || "Deleting property failed";
+				state.error = action.payload;
+			});
+	},
+			// Handle properties-related thunks
+			.addCase(getProperties.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(getProperties.fulfilled, (state, action) => {
+				state.loading = false;
+				state.properties = action.payload;
+			})
+			.addCase(getProperties.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
+			.addCase(getProperty.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(getProperty.fulfilled, (state, action) => {
+				state.loading = false;
+				state.property = action.payload;
+			})
+			.addCase(getProperty.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
+			.addCase(addProperty.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(addProperty.fulfilled, (state, action) => {
+				state.loading = false;
+				state.properties.push(action.payload);
+			})
+			.addCase(addProperty.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
+			.addCase(updateProperty.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(updateProperty.fulfilled, (state, action) => {
+				state.loading = false;
+				const index = state.properties.findIndex(
+					(property) => property._id === action.payload.id,
+				);
+				if (index !== -1) {
+					state.properties[index] = action.payload;
+				}
+			})
+			.addCase(updateProperty.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
+			.addCase(deleteProperty.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(deleteProperty.fulfilled, (state, action) => {
+				state.loading = false;
+				state.properties = state.properties.filter(
+					(property) => property._id !== action.payload.id,
+				);
+			})
+			.addCase(deleteProperty.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
 			});
 	},
 });
 
-export const { addToBookmark, removeFromBookmark } = userSlice.actions;
+export const { addToBookmark, removeFromBookmark, setLoading } =
+	userSlice.actions;
 
 export default userSlice.reducer;

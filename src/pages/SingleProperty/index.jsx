@@ -1,5 +1,4 @@
 import "./SingleProperty.css";
-import { properties } from "../../sources";
 import {
 	FaBath,
 	FaBed,
@@ -13,23 +12,26 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToBookmark, removeFromBookmark } from "../../redux/slice";
+import { toast } from "react-toastify";
 
 const SingleProperty = () => {
 	const { id } = useParams();
 	const dispatch = useDispatch();
-	const { userInfo, bookmarks } = useSelector((state) => state.user);
-	const property = properties.find((p) => p.id === Number(id));
+	const { userInfo, bookmarks, properties } = useSelector(
+		(state) => state.user,
+	);
+	const property = properties.find((property) => property._id === id);
 	const bookmarked = bookmarks?.filter(
-		(bookmark) => bookmark.id === property.id,
+		(bookmark) => bookmark._id === property._id,
 	);
 
 	const addBookmarkHandler = () => {
 		dispatch(addToBookmark(property));
-		alert("Property bookmarked successfully!");
+		toast.success("Property bookmarked successfully!");
 	};
 	const removeBookmarkHandler = () => {
 		dispatch(removeFromBookmark(property.id));
-		alert("Property removed from bookmarks successfully!");
+		toast.warning("Property removed from bookmarks successfully!");
 	};
 
 	return (
@@ -64,7 +66,7 @@ const SingleProperty = () => {
 						</div>
 						{userInfo && (
 							<div className="btn bookmark">
-								{bookmarked.length > 0 ? (
+								{bookmarked?.length > 0 ? (
 									<FaBookmark size={30} onClick={removeBookmarkHandler} />
 								) : (
 									<FaRegBookmark size={30} onClick={addBookmarkHandler} />
@@ -72,7 +74,7 @@ const SingleProperty = () => {
 							</div>
 						)}
 						<Link
-							to={`/property/${property.id}/contactagent`}
+							to={`/property/${property._id}/contactagent`}
 							className="btn primary"
 						>
 							Contact Agent

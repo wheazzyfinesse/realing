@@ -18,18 +18,22 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import SingleProperty from "./pages/SingleProperty";
 import ContactAgent from "./pages/ContactAgent";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getProperties } from "./redux/slice";
+import UpdateProperty from "./pages/UpdateProperty";
 function App() {
-	const { userInfo } = useSelector((state) => state.user);
+	const { userInfo, properties } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
+
 	useEffect(() => {
+		dispatch(getProperties());
 		Aos.init({
 			duration: 1000,
 			easing: "ease-in-sine",
 		});
-	}, []);
+	}, [dispatch, properties]);
 	return (
 		<Router>
 			<ToastContainer />;
@@ -54,6 +58,17 @@ function App() {
 				<Route
 					path="/property/:id/contactagent"
 					element={!userInfo ? <Navigate to="/login" /> : <ContactAgent />}
+				/>
+				<Route
+					path="/updateproperty/:id"
+					key={location.pathname}
+					element={
+						!userInfo && !userInfo?.isAdmin ? (
+							<Navigate to="/" />
+						) : (
+							<UpdateProperty />
+						)
+					}
 				/>
 				<Route path="*" element={<NotFound />} />
 			</Routes>
