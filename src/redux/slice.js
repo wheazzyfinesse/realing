@@ -52,7 +52,7 @@ export const logoutUser = createAsyncThunk(
 	},
 );
 export const updateProfile = createAsyncThunk(
-	"user/updateUser",
+	"user/updateProfile",
 	async (credentials, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
@@ -68,6 +68,69 @@ export const updateProfile = createAsyncThunk(
 			}
 		} catch (error) {
 			return rejectWithValue(error.message);
+		}
+	},
+);
+
+// Define thunks for admin users
+export const getUsers = createAsyncThunk(
+	"properties/getUsers",
+	async (_, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.getUsers.initiate(),
+			).unwrap();
+			return res;
+		} catch (error) {
+			return rejectWithValue(error.data);
+		}
+	},
+);
+
+export const getUser = createAsyncThunk(
+	"properties/getUser",
+	async (id, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.getUser.initiate(id),
+			).unwrap();
+			return res;
+		} catch (error) {
+			return rejectWithValue(error.data);
+		}
+	},
+);
+
+export const updateUser = createAsyncThunk(
+	"properties/updateUser",
+	async ({ id, ...property }, { dispatch, rejectWithValue }) => {
+		console.log(property);
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.updateUser.initiate({ id, ...property }),
+			).unwrap();
+			toast.success(`${res.title} updated successfully`);
+			return res;
+		} catch (error) {
+			toast.error(error.data);
+			return rejectWithValue(error.data);
+		}
+	},
+);
+
+export const deleteUser = createAsyncThunk(
+	"properties/deleteUser",
+	async (id, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.deleteUser.initiate(id),
+			).unwrap();
+			alert;
+			toast.success(res);
+			return res;
+		} catch (error) {
+			toast.error(error.data);
+			return rejectWithValue(error.data);
 		}
 	},
 );
@@ -116,6 +179,21 @@ export const addProperty = createAsyncThunk(
 		}
 	},
 );
+export const addEnquiry = createAsyncThunk(
+	"properties/addEnquiry",
+	async (property, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.addEnquiry.initiate(property),
+			).unwrap();
+			toast.success(`${res.title} Added successfully`);
+			return res;
+		} catch (error) {
+			toast.error(error.data);
+			return rejectWithValue(error.data);
+		}
+	},
+);
 
 export const updateProperty = createAsyncThunk(
 	"properties/updateProperty",
@@ -146,22 +224,6 @@ export const deleteProperty = createAsyncThunk(
 			return res;
 		} catch (error) {
 			toast.error(error.data);
-			return rejectWithValue(error.data);
-		}
-	},
-);
-
-// Enquiry thunks
-export const makeEnquiry = createAsyncThunk(
-	"properties/addProperty",
-	async (enquiry, { dispatch, rejectWithValue }) => {
-		try {
-			const res = await dispatch(
-				apiSlice.endpoints.makeEnquiry.initiate(enquiry),
-			).unwrap();
-			console.log(res);
-			return res;
-		} catch (error) {
 			return rejectWithValue(error.data);
 		}
 	},
@@ -207,9 +269,6 @@ const userSlice = createSlice({
 			state.bookmarks = state.bookmarks.filter(
 				(bookmark) => bookmark.id !== action.payload,
 			);
-		},
-		setLoading: (state, action) => {
-			state.loading = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
@@ -298,46 +357,35 @@ const userSlice = createSlice({
 				state.loading = true;
 				state.error = null;
 			})
-			.addCase(addProperty.fulfilled, (state, action) => {
-				state.loading = false;
-				state.properties.push(action.payload);
-			})
-			.addCase(addProperty.rejected, (state, action) => {
-				state.loading = false;
-				state.error = action.payload;
-			})
-			.addCase(updateProperty.pending, (state) => {
-				state.loading = true;
-				state.error = null;
-			})
-			.addCase(updateProperty.fulfilled, (state, action) => {
+
+			.addCase(updateUser.fulfilled, (state, action) => {
 				state.loading = false;
 				const index = state.properties.findIndex(
-					(property) => property._id === action.payload.id,
+					(user) => user._id === action.payload.id,
 				);
 				if (index !== -1) {
-					state.properties[index] = action.payload;
+					state.users[index] = action.payload;
 				}
 			})
-			.addCase(updateProperty.rejected, (state, action) => {
+			.addCase(updateUser.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload;
 			})
-			.addCase(deleteProperty.pending, (state) => {
+			.addCase(deleteUser.pending, (state) => {
 				state.loading = true;
 				state.error = null;
 			})
-			.addCase(deleteProperty.fulfilled, (state, action) => {
+			.addCase(deleteUser.fulfilled, (state, action) => {
 				state.loading = false;
 				state.properties = state.properties.filter(
-					(property) => property._id !== action.payload.id,
+					(users) => users._id !== action.payload.id,
 				);
 			})
-			.addCase(deleteProperty.rejected, (state, action) => {
+			.addCase(deleteUser.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload;
-			});
-	},
+			})
+
 			// Handle properties-related thunks
 			.addCase(getProperties.pending, (state) => {
 				state.loading = true;
@@ -403,6 +451,20 @@ const userSlice = createSlice({
 				);
 			})
 			.addCase(deleteProperty.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
+			.addCase(addEnquiry.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(addEnquiry.fulfilled, (state, action) => {
+				state.loading = false;
+				state.enquiries = state.enquiries.filter(
+					(enquiry) => enquiry._id !== action.payload.id,
+				);
+			})
+			.addCase(addEnquiry.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload;
 			});

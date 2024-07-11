@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
 	reducerPath: "api",
 	baseQuery: fetchBaseQuery({
-		// baseUrl: "http://localhost:5000/api/",
-		baseUrl: "http://realing.vercel.app/api/",
+		baseUrl: "http://localhost:5000/api/",
+		// baseUrl: "http://realing.vercel.app/api/",
 		credentials: "include",
 	}),
 	tagTypes: ["User", "Property", "Enquiry"], // Define your tags
@@ -115,7 +115,7 @@ export const apiSlice = createApi({
 			query: (id) => `enquiries/${id}`,
 			providesTags: (result, error, id) => [{ type: "Enquiry", id }],
 		}),
-		makeEnquiry: builder.mutation({
+		addEnquiry: builder.mutation({
 			query: (enquiry) => ({
 				url: "enquiries",
 				method: "POST",

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { enquirySchema } from "../../redux/zod";
 import { useDispatch } from "react-redux";
-import { makeEnquiry } from "../../redux/slice";
+import { addEnquiry } from "../../redux/slice";
 
 const ContactAgent = () => {
 	const { id } = useParams();
@@ -16,8 +16,8 @@ const ContactAgent = () => {
 	} = useForm({
 		resolver: zodResolver(enquirySchema),
 	});
-	const makeEnquiryHandler = (formData) => {
-		dispatch(makeEnquiry(formData));
+	const addEnquiryHandler = (formData) => {
+		dispatch(addEnquiry(formData));
 	};
 	return (
 		<section id="contact">
@@ -33,7 +33,7 @@ const ContactAgent = () => {
 							as fast as possible
 						</p>
 					</div>
-					<form onSubmit={handleSubmit(makeEnquiryHandler)}>
+					<form onSubmit={handleSubmit(addEnquiryHandler)}>
 						<div className="middle">
 							<div className="row">
 								<div className="middle-top">
