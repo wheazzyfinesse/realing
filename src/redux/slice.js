@@ -237,6 +237,7 @@ const initialState = {
 	loading: false,
 	error: null,
 	properties: [],
+	enquiries: [],
 	property: {},
 	users: [],
 	user: {},
@@ -252,12 +253,12 @@ const userSlice = createSlice({
 	reducers: {
 		addToBookmark: (state, action) => {
 			const existingItem = state.bookmarks.find(
-				(bookmark) => bookmark.id === action.payload.id,
+				(bookmark) => bookmark._id === action.payload._id,
 			);
 
 			if (existingItem) {
 				state.bookmarks = state.bookmarks.map((bookmark) =>
-					bookmark.id === existingItem.id ? action.payload : bookmark,
+					bookmark._id === existingItem._id ? action.payload : bookmark,
 				);
 			} else {
 				state.bookmarks = [...state.bookmarks, action.payload];
@@ -267,7 +268,7 @@ const userSlice = createSlice({
 
 		removeFromBookmark: (state, action) => {
 			state.bookmarks = state.bookmarks.filter(
-				(bookmark) => bookmark.id !== action.payload,
+				(bookmark) => bookmark._id !== action.payload,
 			);
 		},
 	},
