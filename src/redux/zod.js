@@ -59,19 +59,19 @@ const profileSchema = z
 	})
 	.optional();
 
-const optionalProfileSchema = profileSchema.partial({
-	email: true,
-	username: true,
-	phone: true,
-	password: true,
-	confirmPassword: true,
-	image: true,
-	address: true,
-	city: true,
-	state: true,
-	zip: true,
-	country: true,
-});
+// const optionalProfileSchema = profileSchema.partial({
+// 	email: true,
+// 	username: true,
+// 	phone: true,
+// 	password: true,
+// 	confirmPassword: true,
+// 	image: true,
+// 	address: true,
+// 	city: true,
+// 	state: true,
+// 	zip: true,
+// 	country: true,
+// });
 
 const productSchema = z.object({
 	title: z.string().min(1, { message: "Product title is required" }),
@@ -131,7 +131,7 @@ export {
 	baseSchema,
 	registerSchema,
 	profileSchema,
-	optionalProfileSchema,
+	// optionalProfileSchema,
 	productSchema,
 	optionalProductSchema,
 	categorySchema,
