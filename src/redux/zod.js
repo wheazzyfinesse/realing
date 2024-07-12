@@ -91,15 +91,15 @@ const productSchema = z.object({
 	category: z.string().min(1, { message: "Category is required" }),
 });
 
-const optionalProductSchema = productSchema.partial({
-	title: true,
-	brand: true,
-	description: true,
-	price: true,
-	quantity: true,
-	image: true,
-	category: true,
-});
+// const optionalProductSchema = productSchema.partial({
+// 	title: true,
+// 	brand: true,
+// 	description: true,
+// 	price: true,
+// 	quantity: true,
+// 	image: true,
+// 	category: true,
+// });
 
 const propertySchema = z.object({
 	title: z.string().min(1, { message: "Title is required" }),
@@ -133,7 +133,7 @@ export {
 	profileSchema,
 	// optionalProfileSchema,
 	productSchema,
-	optionalProductSchema,
+	// optionalProductSchema,
 	categorySchema,
 	searchSchema,
 	enquirySchema,
