@@ -23,8 +23,10 @@ const ContactAgent = () => {
 		if (error) {
 			return;
 		} else {
-			await dispatch(addEnquiry({ id, ...formData }));
-			navigate("/properties");
+			const res = await dispatch(addEnquiry({ id, ...formData }));
+			if (res) {
+				navigate("/properties");
+			}
 		}
 	};
 	return (

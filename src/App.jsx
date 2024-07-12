@@ -23,6 +23,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getProperties } from "./redux/slice";
 import UpdateProperty from "./pages/UpdateProperty";
+import VerifyAccount from "./pages/VerifyAccount";
 function App() {
 	const { userInfo, properties } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
@@ -53,6 +54,10 @@ function App() {
 				<Route
 					path="/forgotpassword"
 					element={userInfo ? <Navigate to="/" /> : <ForgotPassword />}
+				/>
+				<Route
+					path="/:id/verifyaccount"
+					element={!userInfo ? <Navigate to="/" /> : <VerifyAccount />}
 				/>
 				<Route path="/profile" element={<Profile />} />
 				<Route
