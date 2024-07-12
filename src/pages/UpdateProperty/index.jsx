@@ -33,6 +33,7 @@ const UpdateProperty = () => {
 		});
 		if (updated) {
 			const res = dispatch(updateProperty({ id, ...property }));
+			navigate("./properties");
 			if (res) {
 				return res;
 			}
