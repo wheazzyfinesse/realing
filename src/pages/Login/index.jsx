@@ -20,7 +20,11 @@ const Login = () => {
 	const dispatch = useDispatch();
 	const loginHandler = (credentials) => {
 		dispatch(loginUser(credentials));
-		error ? "/login" : navigate("/properties");
+		if (error) {
+			navigate("/login");
+		} else {
+			navigate("/properties");
+		}
 	};
 
 	return (

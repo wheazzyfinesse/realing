@@ -5,10 +5,13 @@ import { registerSchema } from "../../redux/zod";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../redux/slice";
 import React from "react";
+import { useNavigate } from "react-router";
 
 const Register = () => {
-	const { loading } = useSelector((state) => state.user);
+	const { loading, error } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
 	const {
 		handleSubmit,
 		control,
@@ -28,6 +31,11 @@ const Register = () => {
 	// Filter and order the fields based on the defined order
 	const registerHandler = (formData) => {
 		dispatch(registerUser(formData));
+		if (error) {
+			navigate("/register");
+		} else {
+			navigate("/profile");
+		}
 	};
 
 	return (
