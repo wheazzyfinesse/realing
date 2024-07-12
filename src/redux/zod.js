@@ -22,8 +22,6 @@ const registerSchema = baseSchema
 		path: ["confirmPassword"], // Path of error
 	});
 
-import { z } from "zod";
-
 // Define the base profile schema
 const baseProfileSchema = z.object({
 	email: z.string().email({ message: "Invalid email address" }).optional(),
