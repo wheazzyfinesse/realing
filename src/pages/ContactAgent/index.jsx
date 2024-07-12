@@ -21,7 +21,6 @@ const ContactAgent = () => {
 	});
 	const addEnquiryHandler = async (formData) => {
 		if (error) {
-			navigate(`property/${id}/contactagent`);
 			return;
 		} else {
 			await dispatch(addEnquiry({ id, ...formData }));
