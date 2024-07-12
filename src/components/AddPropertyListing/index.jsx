@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
 
 const AddPropertyListing = () => {
-	const { userInfo, loading } = useSelector((state) => state.user);
+	const { userInfo, loading, error } = useSelector((state) => state.user);
 	const fields = Object.keys(propertySchema._def.shape())
 		.filter((field) => !["user", "image"].includes(field))
 		.map((field) => ({
@@ -25,9 +25,13 @@ const AddPropertyListing = () => {
 	});
 
 	const dispatch = useDispatch();
-	const addPropertyHandler = (formData) => {
-		dispatch(addProperty(formData));
-		navigate("/properties");
+	const addPropertyHandler = async (formData) => {
+		await dispatch(addProperty(formData));
+		if (error) {
+			return;
+		} else {
+			navigate("/properties");
+		}
 	};
 
 	return (

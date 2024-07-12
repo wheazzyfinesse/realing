@@ -27,15 +27,18 @@ const UpdateProperty = () => {
 		resolver: zodResolver(propertySchema),
 	});
 
-	const updatePropertyHandler = (property) => {
-		Object.keys(property).some((key) => {
-			if (property[key] !== initialValues[key]) {
-				dispatch(updateProperty({ id, ...property }));
-				return;
-			}
-			navigate("/profile");
-			return toast.warning("No new Update");
+	const updatePropertyHandler = async (property) => {
+		const updated = Object.keys(property).some((key) => {
+			return property[key] !== initialValues[key];
 		});
+		try {
+			if (updated) {
+				dispatch(updateProperty({ id, ...property }));
+			}
+			toast.warning("No update");
+		} catch (error) {
+			return;
+		}
 	};
 	useEffect(() => {
 		const fetchProperty = async () => {

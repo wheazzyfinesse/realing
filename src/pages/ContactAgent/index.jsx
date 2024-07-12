@@ -19,12 +19,12 @@ const ContactAgent = () => {
 	} = useForm({
 		resolver: zodResolver(enquirySchema),
 	});
-	const addEnquiryHandler = (formData) => {
-		console.log(formData);
-		dispatch(addEnquiry({ id, ...formData }));
+	const addEnquiryHandler = async (formData) => {
 		if (error) {
+			navigate(`property/${id}/contactagent`);
 			return;
 		} else {
+			await dispatch(addEnquiry({ id, ...formData }));
 			navigate("/properties");
 		}
 	};

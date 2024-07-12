@@ -32,7 +32,6 @@ const Register = () => {
 	const registerHandler = (formData) => {
 		try {
 			dispatch(registerUser(formData));
-			navigate("/profile");
 		} catch (error) {
 			navigate("/register");
 		}

@@ -46,13 +46,21 @@ const Account = () => {
 		"image",
 		"_id",
 		"__v",
+		"enquiries",
 		"createdAt",
 		"updatedAt",
 		"isAdmin",
 	]; // Add any fields you want to exclude here
-	const fields = Object.keys(userInfo).filter(
-		(key) => !excludedFields.includes(key),
-	);
+
+	const fields = userInfo
+		? Object.keys(userInfo).filter((key) => !excludedFields.includes(key))
+		: [];
+
+	if (!userInfo) {
+		console.error("userInfo is undefined");
+		// Handle the error appropriately, e.g., return an error response or set a default value
+		return <p>Error Loading UserInfo</p>;
+	}
 	return (
 		<div className="form-wrapper">
 			<span className="gradient-text">My Account</span>

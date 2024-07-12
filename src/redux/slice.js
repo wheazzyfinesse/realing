@@ -178,21 +178,6 @@ export const addProperty = createAsyncThunk(
 		}
 	},
 );
-export const addEnquiry = createAsyncThunk(
-	"properties/addEnquiry",
-	async ({ id, ...enquiry }, { dispatch, rejectWithValue }) => {
-		try {
-			const res = await dispatch(
-				apiSlice.endpoints.addEnquiry.initiate({ id, ...enquiry }),
-			).unwrap();
-			toast.success(`Property enquiry sent successfully`);
-			return res;
-		} catch (error) {
-			toast.error("error.data");
-			return rejectWithValue(error.data);
-		}
-	},
-);
 
 export const updateProperty = createAsyncThunk(
 	"properties/updateProperty",
@@ -220,6 +205,23 @@ export const deleteProperty = createAsyncThunk(
 			).unwrap();
 			alert;
 			toast.success(res);
+			return res;
+		} catch (error) {
+			toast.error(error.data);
+			return rejectWithValue(error.data);
+		}
+	},
+);
+
+// Define thunks for enquiries
+export const addEnquiry = createAsyncThunk(
+	"properties/addEnquiry",
+	async ({ id, ...enquiry }, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.addEnquiry.initiate({ id, ...enquiry }),
+			).unwrap();
+			toast.success(`Property enquiry sent successfully`);
 			return res;
 		} catch (error) {
 			toast.error(error.data);
