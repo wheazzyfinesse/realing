@@ -31,14 +31,13 @@ const UpdateProperty = () => {
 		const updated = Object.keys(property).some((key) => {
 			return property[key] !== initialValues[key];
 		});
-		try {
-			if (updated) {
-				dispatch(updateProperty({ id, ...property }));
+		if (updated) {
+			const res = dispatch(updateProperty({ id, ...property }));
+			if (res) {
+				return res;
 			}
-			toast.warning("No update");
-		} catch (error) {
-			return;
 		}
+		toast.warning("No update");
 	};
 	useEffect(() => {
 		const fetchProperty = async () => {

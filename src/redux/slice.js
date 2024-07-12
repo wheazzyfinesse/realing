@@ -28,6 +28,11 @@ export const loginUser = createAsyncThunk(
 			const res = await dispatch(
 				apiSlice.endpoints.login.initiate(credentials),
 			).unwrap();
+
+			const token = res.token;
+			if (token) {
+				localStorage.setItem("token", token); // Store the token
+			}
 			toast.success(`${res.username}! You logged in successfully`);
 			return res;
 		} catch (error) {

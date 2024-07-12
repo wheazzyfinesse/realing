@@ -20,10 +20,7 @@ const Login = () => {
 	const dispatch = useDispatch();
 	const loginHandler = async (credentials) => {
 		try {
-			const res = await dispatch(loginUser(credentials));
-			if (res) {
-				navigate("/");
-			}
+			dispatch(loginUser(credentials));
 		} catch (error) {
 			navigate("/login");
 		}

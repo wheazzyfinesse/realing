@@ -6,8 +6,14 @@ import { enquirySchema } from "../../redux/zod";
 import { useDispatch, useSelector } from "react-redux";
 import { addEnquiry } from "../../redux/slice";
 import { ImSpinner3 } from "react-icons/im";
+import Cookies from "js-cookie";
 
 const ContactAgent = () => {
+	const getToken = () => {
+		Cookies.get("token");
+	};
+	console.log(Cookies);
+	console.log(getToken());
 	const { loading, error } = useSelector((state) => state.user);
 	const { id } = useParams();
 	const navigate = useNavigate();
