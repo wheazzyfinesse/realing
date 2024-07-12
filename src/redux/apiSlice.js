@@ -3,13 +3,14 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const getToken = () => localStorage.getItem("token");
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: "http://localhost:5000/api/",
-	// baseUrl: "https://realingapi.vercel.app/api/",
+	// baseUrl: "http://localhost:5000/api/",
+	baseUrl: "https://realingapi.vercel.app/api/",
 	prepareHeaders: (headers) => {
 		const token = getToken();
 		if (token) {
 			headers.set("Authorization", `Bearer ${token}`);
 		}
+		headers.set("Content-Type", "application/json");
 		return headers;
 	},
 	credentials: "include",
