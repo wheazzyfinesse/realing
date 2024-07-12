@@ -312,7 +312,7 @@ const userSlice = createSlice({
 			.addCase(logoutUser.fulfilled, (state) => {
 				state.loading = false;
 				state.userInfo = null;
-				state.bookmarks = null;
+				state.bookmarks = [];
 				localStorage.removeItem("bookmarks");
 				localStorage.removeItem("userInfo");
 			})
@@ -476,7 +476,6 @@ const userSlice = createSlice({
 	},
 });
 
-export const { addToBookmark, removeFromBookmark, setLoading } =
-	userSlice.actions;
+export const { addToBookmark, removeFromBookmark } = userSlice.actions;
 
 export default userSlice.reducer;

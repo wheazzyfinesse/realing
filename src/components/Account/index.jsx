@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { profileSchema } from "../../redux/zod"; // Assuming this is the correct schema to use
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading, updateProfile } from "../../redux/slice"; // Assuming a slice for updating profile
+import { updateProfile } from "../../redux/slice"; // Assuming a slice for updating profile
 import { FaEdit, FaRegUser } from "react-icons/fa";
 import React, { useState } from "react";
 import { CiGlobe } from "react-icons/ci";
@@ -31,13 +31,11 @@ const Account = () => {
 	const dispatch = useDispatch();
 
 	const updateProfileHandler = (formData) => {
-		dispatch(setLoading(true));
 		Object.keys(formData).some((key) => {
 			if (formData[key] !== userInfo[key]) {
 				dispatch(updateProfile(formData));
 				return;
 			} else {
-				dispatch(setLoading(false));
 				setEditable(null);
 				return;
 			}
