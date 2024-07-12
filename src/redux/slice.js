@@ -180,15 +180,15 @@ export const addProperty = createAsyncThunk(
 );
 export const addEnquiry = createAsyncThunk(
 	"properties/addEnquiry",
-	async (property, { dispatch, rejectWithValue }) => {
+	async ({ id, ...enquiry }, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.addEnquiry.initiate(property),
+				apiSlice.endpoints.addEnquiry.initiate({ id, ...enquiry }),
 			).unwrap();
-			toast.success(`${res.title} Added successfully`);
+			toast.success(`Property enquiry sent successfully`);
 			return res;
 		} catch (error) {
-			toast.error(error.data);
+			toast.error("error.data");
 			return rejectWithValue(error.data);
 		}
 	},

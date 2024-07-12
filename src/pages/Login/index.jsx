@@ -16,14 +16,13 @@ const Login = () => {
 	});
 	const navigate = useNavigate();
 
-	const { loading, error } = useSelector((state) => state.user);
+	const { loading } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
-	const loginHandler = (credentials) => {
-		dispatch(loginUser(credentials));
-		if (error) {
+	const loginHandler = async (credentials) => {
+		try {
+			await dispatch(loginUser(credentials));
+		} catch (error) {
 			navigate("/login");
-		} else {
-			navigate("/properties");
 		}
 	};
 

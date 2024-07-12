@@ -8,7 +8,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 
 const Register = () => {
-	const { loading, error } = useSelector((state) => state.user);
+	const { loading } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -30,11 +30,11 @@ const Register = () => {
 	fields = orderedFields.filter((key) => fields.includes(key));
 	// Filter and order the fields based on the defined order
 	const registerHandler = (formData) => {
-		dispatch(registerUser(formData));
-		if (error) {
-			navigate("/register");
-		} else {
+		try {
+			dispatch(registerUser(formData));
 			navigate("/profile");
+		} catch (error) {
+			navigate("/register");
 		}
 	};
 

@@ -24,7 +24,7 @@ const Profile = () => {
 				<div className="profile-container">
 					<div className="menu">
 						<div className="image-container">
-							<img src={userInfo.image} alt="" className="image" />
+							<img src={userInfo?.image || ""} alt="" className="image" />
 						</div>
 						<ul>
 							<li

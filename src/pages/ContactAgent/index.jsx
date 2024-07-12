@@ -20,7 +20,8 @@ const ContactAgent = () => {
 		resolver: zodResolver(enquirySchema),
 	});
 	const addEnquiryHandler = (formData) => {
-		dispatch(addEnquiry({ id, formData }));
+		console.log(formData);
+		dispatch(addEnquiry({ id, ...formData }));
 		if (error) {
 			return;
 		} else {
@@ -53,17 +54,6 @@ const ContactAgent = () => {
 									/>
 									{errors?.subject && (
 										<p className="error">{errors.subject.message}</p>
-									)}
-								</div>
-								<div className="middle-top">
-									<input
-										{...register("phone")}
-										type="tel"
-										placeholder="Phone number"
-										className="control"
-									/>
-									{errors?.phone && (
-										<p className="error">{errors.phone.message}</p>
 									)}
 								</div>
 							</div>
