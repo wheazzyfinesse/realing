@@ -67,12 +67,9 @@ export const getVerificationCode = createAsyncThunk(
 				apiSlice.endpoints.getVerificationCode.initiate(),
 			).unwrap();
 			toast.success(res);
-			toast.success("Verification code was successfully sent");
 			return;
 		} catch (error) {
-			console.log(error)
 			toast.error("Error getting verification code");
-			toast.error(error.data);
 			return rejectWithValue(error.data);
 		}
 	},

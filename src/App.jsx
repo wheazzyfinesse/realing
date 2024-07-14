@@ -30,13 +30,13 @@ function App() {
 	useEffect(() => {
 		dispatch(getProperties());
 		Aos.init({
-			duration: 1000,
+			duration: 300,
 			easing: "ease-in-sine",
 		});
 	}, [dispatch, properties]);
 	return (
 		<Router>
-			<ToastContainer />;
+			<ToastContainer />
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />
