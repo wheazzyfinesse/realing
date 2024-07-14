@@ -58,6 +58,25 @@ export const verifyAccount = createAsyncThunk(
 	},
 );
 
+// Define thunks for admin users
+export const getVerificationCode = createAsyncThunk(
+	"users/getVerificationCode",
+	async (_, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.getVerificationCode.initiate(),
+			).unwrap();
+			toast.success(res);
+			toast.success("Verification code was successfully sent");
+			return;
+		} catch (error) {
+			console.log(error)
+			toast.error("Error getting verification code");
+			toast.error(error.data);
+			return rejectWithValue(error.data);
+		}
+	},
+);
 export const logoutUser = createAsyncThunk(
 	"user/logoutUser",
 	async (_, { dispatch, rejectWithValue }) => {
@@ -78,15 +97,10 @@ export const updateProfile = createAsyncThunk(
 			const res = await dispatch(
 				apiSlice.endpoints.updateProfile.initiate(formData),
 			).unwrap();
-
-			if (res.error) {
-				toast.error("Profile update failed");
-				return rejectWithValue("Failed to update");
-			} else {
-				toast.success("Profile updated successfully");
-				return res;
-			}
+			toast.success("Profile updated successfully");
+			return res;
 		} catch (error) {
+			toast.error(error.data);
 			return rejectWithValue(error.data);
 		}
 	},
@@ -234,7 +248,7 @@ export const deleteProperty = createAsyncThunk(
 
 // Define thunks for enquiries
 export const addEnquiry = createAsyncThunk(
-	"properties/addEnquiry",
+	"enquiries/addEnquiry",
 	async ({ id, ...formData }, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
@@ -248,6 +262,34 @@ export const addEnquiry = createAsyncThunk(
 		}
 	},
 );
+export const addAnonEnquiry = createAsyncThunk(
+	"enquiries/addAnonEnquiry",
+	async (formData, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.addAnonEnquiry.initiate(formData),
+			).unwrap();
+			toast.success("enquiry sent successfully");
+			return res;
+		} catch (error) {
+			toast.error(error.data);
+			return rejectWithValue(error.data);
+		}
+	},
+);
+export const getEnquiry = createAsyncThunk(
+	"enquiries/getEnquiry",
+	async (_, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.getEnquiry.initiate(),
+			).unwrap();
+			return res;
+		} catch (error) {
+			return rejectWithValue(error.data);
+		}
+	},
+);
 
 // Define the initial state
 const initialState = {
@@ -257,8 +299,8 @@ const initialState = {
 	loading: false,
 	error: null,
 	properties: [],
-	enquiries: [],
 	property: {},
+	enquiries: [],
 	users: [],
 	user: {},
 	bookmarks: localStorage.getItem("bookmarks")
@@ -340,6 +382,17 @@ const userSlice = createSlice({
 				state.loading = false;
 				state.error = action.payload;
 			})
+			.addCase(getVerificationCode.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(getVerificationCode.fulfilled, (state,) => {
+				state.loading = false;
+			})
+			.addCase(getVerificationCode.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
 			.addCase(logoutUser.pending, (state) => {
 				state.loading = true;
 				state.error = null;
@@ -348,7 +401,6 @@ const userSlice = createSlice({
 				state.loading = false;
 				state.userInfo = null;
 				state.bookmarks = [];
-				localStorage.removeItem("bookmarks");
 				localStorage.removeItem("userInfo");
 				localStorage.removeItem("token");
 			})
@@ -502,11 +554,34 @@ const userSlice = createSlice({
 			})
 			.addCase(addEnquiry.fulfilled, (state, action) => {
 				state.loading = false;
-				state.enquiries = state.enquiries.filter(
-					(enquiry) => enquiry._id !== action.payload.id,
-				);
+				state.enquiries = [...state.enquiries, action.payload]
+
 			})
 			.addCase(addEnquiry.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
+			.addCase(addAnonEnquiry.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(addAnonEnquiry.fulfilled, (state) => {
+				state.loading = false;
+
+			})
+			.addCase(addAnonEnquiry.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
+			.addCase(getEnquiry.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(getEnquiry.fulfilled, (state, action) => {
+				state.loading = false;
+				state.enquiries = action.payload
+			})
+			.addCase(getEnquiry.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload;
 			});

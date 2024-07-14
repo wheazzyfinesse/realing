@@ -47,12 +47,16 @@ export const apiSlice = createApi({
 		}),
 		verifyAccount: builder.mutation({
 			query: (formData) => ({
-				url: `user/profile`,
+				url: "user/profile",
 				method: "POST",
 				body: formData,
 			}),
 			invalidatesTags: ["User"],
 		}),
+		getVerificationCode: builder.query({
+			query: () => "user/verify",
+		}),
+
 		updateProfile: builder.mutation({
 			query: (formData) => ({
 				url: "user/profile",
@@ -63,7 +67,7 @@ export const apiSlice = createApi({
 		}),
 		delete: builder.mutation({
 			query: () => ({
-				url: "user/profile",
+				url: "user/:id",
 				method: "DELETE",
 			}),
 			invalidatesTags: ["User"],
@@ -132,8 +136,7 @@ export const apiSlice = createApi({
 			providesTags: ["Enquiry"],
 		}),
 		getEnquiry: builder.query({
-			query: (id) => `enquiries/${id}`,
-			providesTags: (result, error, id) => [{ type: "Enquiry", id }],
+			query: () => "enquiries/user",
 		}),
 		addEnquiry: builder.mutation({
 			query: ({ id, ...enquiry }) => ({
@@ -143,9 +146,17 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ["Enquiry"],
 		}),
+		addAnonEnquiry: builder.mutation({
+			query: (enquiry) => ({
+				url: `enquiries/addanonenquiry`,
+				method: "POST",
+				body: enquiry,
+			}),
+			invalidatesTags: ["Enquiry"],
+		}),
 		updateEnquiry: builder.mutation({
 			query: ({ id, ...enquiry }) => ({
-				url: `enquiries/${id}`,
+				url: `enquiries / ${id}`,
 				method: "PUT",
 				body: enquiry,
 			}),
@@ -153,7 +164,7 @@ export const apiSlice = createApi({
 		}),
 		deleteEnquiry: builder.mutation({
 			query: (id) => ({
-				url: `enquiries/${id}`,
+				url: `enquiries / ${id}`,
 				method: "DELETE",
 			}),
 			invalidatesTags: (result, error, id) => [{ type: "Enquiry", id }],
@@ -166,6 +177,7 @@ export const {
 	useLoginMutation,
 	useLogoutMutation,
 	useVerifyAccountMutation,
+	useGetVerificationCodeQuery,
 	useUpdateProfileMutation,
 	useDeleteMutation,
 	useGetUsersQuery,
@@ -177,9 +189,10 @@ export const {
 	useAddPropertyMutation,
 	useUpdatePropertyMutation,
 	useDeletePropertyMutation,
+	useAddEnquiryMutation,
+	useAddAnonEnquiryMutation,
 	useGetEnquiriesQuery,
 	useGetEnquiryQuery,
 	useUpdateEnquiryMutation,
 	useDeleteEnquiryMutation,
-	useAddEnquiryMutation,
 } = apiSlice;

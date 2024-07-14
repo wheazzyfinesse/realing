@@ -14,7 +14,7 @@ const Bookmarks = () => {
 
 			{bookmarks?.length > 0 ? (
 				bookmarks?.map((bookmark) => (
-					<div className="bookmark-container" key={bookmark.id}>
+					<div className="bookmark-container" key={bookmark._id}>
 						<div className="bookmark-image">
 							<img
 								className="image"

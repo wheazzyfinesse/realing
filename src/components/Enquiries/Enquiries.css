@@ -1,0 +1,10 @@
+.wrapper .enquiry-container {
+	margin: 20px 0px;
+	padding: 20px;
+	background: var(--bg-accent);
+	border-radius: 10px;
+}
+.wrapper .enquiry-container .image {
+	margin: 20px auto;
+	width: 70%;
+}

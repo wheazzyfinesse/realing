@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
 
 const AddPropertyListing = () => {
-	const { userInfo, loading, error } = useSelector((state) => state.user);
+	const { loading, error } = useSelector((state) => state.user);
 	const fields = Object.keys(propertySchema._def.shape())
 		.filter((field) => !["user", "image"].includes(field))
 		.map((field) => ({
@@ -56,7 +56,7 @@ const AddPropertyListing = () => {
 								field,
 								type === "ZodNumber" && { valueAsNumber: true },
 							)}
-							disabled={loading || userInfo?._id === null}
+							disabled={loading}
 						/>
 					</div>
 				))}

@@ -1,28 +1,38 @@
 import "./Profile.css";
-import { useSelector } from "react-redux";
-import Bookmarks from "./Bookmarks";
-import Enquiries from "./Enquiries";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Account from "../../components/Account";
 import { CiCircleMinus, CiMenuBurger } from "react-icons/ci";
 import AddPropertyListing from "../../components/AddPropertyListing";
 import ManageProperties from "../../components/ManageProperties";
+import Bookmarks from "../../components/Bookmarks/Bookmarks";
+import Enquiries from "../../components/Enquiries/Enquiries";
+import ManageEnquiries from "../../components/ManageEnquiries/Enquiries";
+import { getVerificationCode } from "../../redux/slice";
 
 const Profile = () => {
 	const [tab, setTab] = useState("account");
 	const { userInfo } = useSelector((state) => state.user);
 	const [show, setShow] = useState(false);
 	const [mobile, setMobile] = useState(window.innerWidth <= 500);
-
+	const dispatch = useDispatch();
+	const verifyAccount = async () => {
+		await dispatch(getVerificationCode(userInfo._id));
+	};
 	useEffect(() => {
 		setMobile(window.innerWidth <= 500);
-	}, []);
+	}, [window.innerWidth]);
 
 	return (
 		<section id="profile">
 			<div className="wrapper">
 				<div className="profile-container">
 					<div className="menu">
+						{!userInfo.isVerified && (
+							<p className="verify" onClick={verifyAccount}>
+								Verify your account
+							</p>
+						)}
 						<div className="image-container">
 							<img src={userInfo?.image || ""} alt="" className="image" />
 						</div>
@@ -97,6 +107,7 @@ const Profile = () => {
 						{tab === "enquiries" && <Enquiries />}
 						{tab === "adminadd" && <AddPropertyListing />}
 						{tab === "adminproperties" && <ManageProperties />}
+						{tab === "adminenquiries" && <ManageEnquiries />}
 						{/* {tab === "adminenquiries" && <ManageUsers />} */}
 					</div>
 				</div>

@@ -6,14 +6,8 @@ import { enquirySchema } from "../../redux/zod";
 import { useDispatch, useSelector } from "react-redux";
 import { addEnquiry } from "../../redux/slice";
 import { ImSpinner3 } from "react-icons/im";
-import Cookies from "js-cookie";
 
 const ContactAgent = () => {
-	const getToken = () => {
-		Cookies.get("token");
-	};
-	console.log(Cookies);
-	console.log(getToken());
 	const { loading, error } = useSelector((state) => state.user);
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -26,13 +20,11 @@ const ContactAgent = () => {
 		resolver: zodResolver(enquirySchema),
 	});
 	const addEnquiryHandler = async (formData) => {
-		if (error) {
-			return;
-		} else {
-			const res = await dispatch(addEnquiry({ id, ...formData }));
-			if (res) {
-				navigate("/properties");
-			}
+		try {
+			await dispatch(addEnquiry({ id, ...formData }));
+			return navigate("/properties");
+		} catch (error) {
+			console.log(error);
 		}
 	};
 	return (
@@ -74,7 +66,7 @@ const ContactAgent = () => {
 							)}
 						</div>
 						<div className="flex-center bottom">
-							<button type="submit" className="btn primary">
+							<button type="submit" className="btn primary" disabled={loading}>
 								{loading ? (
 									<ImSpinner3 size={20} className=" icon-wrapper loader" />
 								) : (
