@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../redux/slice";
 import React from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const Register = () => {
 	const { loading } = useSelector((state) => state.user);
@@ -66,10 +67,23 @@ const Register = () => {
 						</div>
 					</React.Fragment>
 				))}
-				<button type="submit" className="btn primary">
+				<button type="submit" className="btn primary" disabled={loading}>
 					{loading ? "Loading..." : "Register"}
 				</button>
 			</form>
+			<div className="buttons-container">
+				<h1 className=" gradient-text">OR</h1>
+
+				<span className="socials">Login with social accounts</span>
+				<div className="flex-center">
+					<button className="btn">Google</button>
+					<button className="btn">Facebook</button>
+				</div>
+				<Link to="/forgotpassword">Forgot Password?</Link>
+				<p className="register-link">
+					Already have an account? <Link to="/login">Login</Link>
+				</p>
+			</div>
 		</div>
 	);
 };
