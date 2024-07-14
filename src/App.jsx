@@ -70,7 +70,7 @@ function App() {
 				/>
 				<Route
 					path="/property/:id/contactagent"
-					element={userInfo ? <Navigate to="/login" /> : <ContactAgent />}
+					element={!userInfo ? <Navigate to="/login" /> : <ContactAgent />}
 				/>
 				<Route
 					path="/updateproperty/:id"
