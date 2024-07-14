@@ -49,7 +49,7 @@ const Account = () => {
 		"enquiries",
 		"createdAt",
 		"updatedAt",
-		"isValid",
+		"isVerified",
 		"token",
 		"isAdmin",
 	]; // Add any fields you want to exclude here
