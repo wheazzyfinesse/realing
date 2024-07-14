@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const getToken = () => localStorage.getItem("token");
 
 const baseQuery = fetchBaseQuery({
-	// baseUrl: "http://localhost:5000/api/",
-	baseUrl: "https://realingapi.vercel.app/api/",
+	baseUrl: "http://localhost:5000/api/",
+	// baseUrl: "https://realingapi.vercel.app/api/",
 	prepareHeaders: (headers) => {
 		const token = getToken();
 		if (token) {
@@ -23,18 +23,18 @@ export const apiSlice = createApi({
 	endpoints: (builder) => ({
 		// User endpoints
 		register: builder.mutation({
-			query: (credentials) => ({
+			query: (formData) => ({
 				url: "user/register",
 				method: "POST",
-				body: credentials,
+				body: formData,
 			}),
 			invalidatesTags: ["User"],
 		}),
 		login: builder.mutation({
-			query: (credentials) => ({
+			query: (formData) => ({
 				url: "user/login",
 				method: "POST",
-				body: credentials,
+				body: formData,
 			}),
 			invalidatesTags: ["User"],
 		}),
@@ -45,11 +45,19 @@ export const apiSlice = createApi({
 			}),
 			invalidatesTags: ["User"],
 		}),
+		verifyAccount: builder.mutation({
+			query: (formData) => ({
+				url: `user/profile`,
+				method: "POST",
+				body: formData,
+			}),
+			invalidatesTags: ["User"],
+		}),
 		updateProfile: builder.mutation({
-			query: (credentials) => ({
+			query: (formData) => ({
 				url: "user/profile",
 				method: "PUT",
-				body: credentials,
+				body: formData,
 			}),
 			invalidatesTags: ["User"],
 		}),
@@ -157,6 +165,7 @@ export const {
 	useRegisterMutation,
 	useLoginMutation,
 	useLogoutMutation,
+	useVerifyAccountMutation,
 	useUpdateProfileMutation,
 	useDeleteMutation,
 	useGetUsersQuery,

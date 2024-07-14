@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 // Define thunks for user
 export const registerUser = createAsyncThunk(
 	"user/registerUser",
-	async (credentials, { dispatch, rejectWithValue }) => {
+	async (formData, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.register.initiate(credentials),
+				apiSlice.endpoints.register.initiate(formData),
 			).unwrap();
 			toast.success("Your registration was successful");
 			return res;
@@ -23,10 +23,10 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
 	"user/loginUser",
-	async (credentials, { dispatch, rejectWithValue }) => {
+	async (formData, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.login.initiate(credentials),
+				apiSlice.endpoints.login.initiate(formData),
 			).unwrap();
 
 			const token = res.token;
@@ -34,6 +34,22 @@ export const loginUser = createAsyncThunk(
 				localStorage.setItem("token", token); // Store the token
 			}
 			toast.success(`${res.username}! You logged in successfully`);
+			return res;
+		} catch (error) {
+			toast.error(error.data);
+			return rejectWithValue(error.data);
+		}
+	},
+);
+
+export const verifyAccount = createAsyncThunk(
+	"user/verifyAccount",
+	async (formData, { dispatch, rejectWithValue }) => {
+		try {
+			const res = await dispatch(
+				apiSlice.endpoints.verifyAccount.initiate(formData),
+			).unwrap();
+			toast.success(`Hey ${res.username}, Account verified successfully!`);
 			return res;
 		} catch (error) {
 			toast.error(error.data);
@@ -57,10 +73,10 @@ export const logoutUser = createAsyncThunk(
 );
 export const updateProfile = createAsyncThunk(
 	"user/updateProfile",
-	async (credentials, { dispatch, rejectWithValue }) => {
+	async (formData, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.updateProfile.initiate(credentials),
+				apiSlice.endpoints.updateProfile.initiate(formData),
 			).unwrap();
 
 			if (res.error) {
@@ -107,11 +123,10 @@ export const getUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
 	"properties/updateUser",
-	async ({ id, ...property }, { dispatch, rejectWithValue }) => {
-		console.log(property);
+	async ({ id, ...formData }, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.updateUser.initiate({ id, ...property }),
+				apiSlice.endpoints.updateUser.initiate({ id, ...formData }),
 			).unwrap();
 			toast.success(`${res.title} updated successfully`);
 			return res;
@@ -170,10 +185,10 @@ export const getProperty = createAsyncThunk(
 
 export const addProperty = createAsyncThunk(
 	"properties/addProperty",
-	async (property, { dispatch, rejectWithValue }) => {
+	async (formData, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.addProperty.initiate(property),
+				apiSlice.endpoints.addProperty.initiate(formData),
 			).unwrap();
 			toast.success(`${res.title} Added successfully`);
 			return res;
@@ -186,11 +201,10 @@ export const addProperty = createAsyncThunk(
 
 export const updateProperty = createAsyncThunk(
 	"properties/updateProperty",
-	async ({ id, ...property }, { dispatch, rejectWithValue }) => {
-		console.log(property);
+	async ({ id, ...formData }, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.updateProperty.initiate({ id, ...property }),
+				apiSlice.endpoints.updateProperty.initiate({ id, ...formData }),
 			).unwrap();
 			toast.success(`${res.title} updated successfully`);
 			return res;
@@ -221,10 +235,10 @@ export const deleteProperty = createAsyncThunk(
 // Define thunks for enquiries
 export const addEnquiry = createAsyncThunk(
 	"properties/addEnquiry",
-	async ({ id, ...enquiry }, { dispatch, rejectWithValue }) => {
+	async ({ id, ...formData }, { dispatch, rejectWithValue }) => {
 		try {
 			const res = await dispatch(
-				apiSlice.endpoints.addEnquiry.initiate({ id, ...enquiry }),
+				apiSlice.endpoints.addEnquiry.initiate({ id, ...formData }),
 			).unwrap();
 			toast.success(`Property enquiry sent successfully`);
 			return res;
@@ -312,6 +326,20 @@ const userSlice = createSlice({
 				state.loading = false;
 				state.error = action.payload;
 			})
+			.addCase(verifyAccount.pending, (state) => {
+				state.loading = true;
+				state.error = null;
+			})
+			.addCase(verifyAccount.fulfilled, (state, action) => {
+				state.loading = false;
+				state.userInfo = action.payload;
+				localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
+				localStorage.setItem("token", JSON.stringify(state.userInfo.token)); // Store the token
+			})
+			.addCase(verifyAccount.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+			})
 			.addCase(logoutUser.pending, (state) => {
 				state.loading = true;
 				state.error = null;
@@ -322,11 +350,13 @@ const userSlice = createSlice({
 				state.bookmarks = [];
 				localStorage.removeItem("bookmarks");
 				localStorage.removeItem("userInfo");
+				localStorage.removeItem("token");
 			})
 			.addCase(logoutUser.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload;
 			})
+
 			.addCase(updateProfile.pending, (state) => {
 				state.loading = true;
 				state.error = null;

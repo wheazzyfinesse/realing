@@ -56,14 +56,13 @@ function App() {
 					element={userInfo ? <Navigate to="/" /> : <ForgotPassword />}
 				/>
 				<Route
-					path="/:id/verifyaccount"
-					element={!userInfo ? <Navigate to="/" /> : <VerifyAccount />}
+					path="/verifyaccount/:id/:otp"
+					element={
+						userInfo?.isVerfied ? <Navigate to="/" /> : <VerifyAccount />
+					}
 				/>
 				<Route path="/profile" element={<Profile />} />
-				<Route
-					path="/property/:id/contactagent"
-					element={!userInfo ? <Navigate to="/login" /> : <ContactAgent />}
-				/>
+				<Route path="/property/:id/contactagent" element={<ContactAgent />} />
 				<Route
 					path="/updateproperty/:id"
 					key={location.pathname}
