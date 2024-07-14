@@ -6,5 +6,9 @@ export default defineConfig({
 	plugins: [react()],
 	build: {
 		outDir: "dist", // Ensure this matches your Vercel configuration if you have a specific output directory
+		// rollupOptions: {
+		// 	external: ['zod'],
+		// },
 	},
+
 });
