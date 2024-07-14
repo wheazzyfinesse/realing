@@ -402,7 +402,6 @@ const userSlice = createSlice({
 				state.userInfo = null;
 				state.bookmarks = [];
 				localStorage.removeItem("userInfo");
-				localStorage.removeItem("bookmarks");
 				localStorage.removeItem("token");
 			})
 			.addCase(logoutUser.rejected, (state, action) => {
