@@ -27,7 +27,6 @@ import VerifyAccount from "./pages/VerifyAccount";
 function App() {
 	const { userInfo, properties } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
-
 	useEffect(() => {
 		dispatch(getProperties());
 		Aos.init({
@@ -58,7 +57,11 @@ function App() {
 				<Route
 					path="/verifyaccount/:id/:otp"
 					element={
-						userInfo?.isVerfied ? <Navigate to="/" /> : <VerifyAccount />
+						userInfo?.isVerified ? (
+							<Navigate to="/profile" />
+						) : (
+							<VerifyAccount />
+						)
 					}
 				/>
 				<Route path="/profile" element={<Profile />} />

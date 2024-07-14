@@ -1,22 +1,28 @@
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { verifyAccount } from "../../redux/slice";
-import { useEffect } from "react";
+import { ImSpinner3 } from "react-icons/im";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { otpSchema } from "../../redux/zod";
 
 const VerifyAccount = () => {
-	const { id, otp } = useParams();
+	const routesParams = useParams();
+	const { loading } = useSelector((state) => state.user);
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
-		setValue,
 		formState: { errors },
-	} = useForm({});
+	} = useForm({
+		defaultValues: routesParams,
+		resolver: zodResolver(otpSchema),
+	});
 
 	const verificationHandler = async (formData) => {
-		formData.id = id;
+		formData.id = routesParams.id;
 		try {
 			await dispatch(verifyAccount(formData)).unwrap();
 			navigate("/profile");
@@ -24,9 +30,7 @@ const VerifyAccount = () => {
 			return;
 		}
 	};
-	useEffect(() => {
-		setValue("otp", otp);
-	}, [otp, setValue]);
+
 	return (
 		<div className="wrapper">
 			<div className="container">
@@ -43,11 +47,15 @@ const VerifyAccount = () => {
 					className="form-container"
 				>
 					<label htmlFor="otp">Verification code</label>
-					<input type="text" {...register("otp")} className="control" />
+					<input
+						type="number"
+						{...register("otp", { valueAsNumber: true })}
+						className="control"
+					/>
 					{errors?.otp && <p className="error">{errors.otp.message}</p>}
 
 					<button type="submit" className="btn primary">
-						Verify account
+						{loading ? <ImSpinner3 size={20} /> : "Verify account"}
 					</button>
 				</form>
 			</div>

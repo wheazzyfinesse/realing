@@ -1,5 +1,4 @@
 import "./Account.css";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { profileSchema } from "../../redux/zod"; // Assuming this is the correct schema to use
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +15,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
 import { LuCheck } from "react-icons/lu";
 import { ImSpinner3 } from "react-icons/im";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const Account = () => {
 	const { loading, userInfo } = useSelector((state) => state.user);
@@ -24,6 +24,7 @@ const Account = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		error,
 	} = useForm({
 		defaultValues: userInfo,
 		resolver: zodResolver(profileSchema),
@@ -31,15 +32,20 @@ const Account = () => {
 	const dispatch = useDispatch();
 
 	const updateProfileHandler = (formData) => {
-		Object.keys(formData).some((key) => {
-			if (formData[key] !== userInfo[key]) {
-				dispatch(updateProfile(formData));
-				return;
-			} else {
-				setEditable(null);
-				return;
-			}
+		const hasChanged = Object.keys(formData).some((key) => {
+			return formData[key] !== userInfo[key];
 		});
+
+		if (hasChanged) {
+			console.log("changed");
+			dispatch(updateProfile(formData));
+			setEditable(null);
+			return;
+		} else {
+			console.log("changed not");
+			setEditable(null);
+			return;
+		}
 	};
 
 	const excludedFields = [
@@ -72,6 +78,7 @@ const Account = () => {
 				onSubmit={handleSubmit(updateProfileHandler)}
 				className="form-container"
 			>
+				<p className="error">{error}</p>
 				{fields.map(
 					(field, index) =>
 						errors[field] && (

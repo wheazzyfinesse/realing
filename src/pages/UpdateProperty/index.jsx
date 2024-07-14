@@ -28,10 +28,10 @@ const UpdateProperty = () => {
 	});
 
 	const updatePropertyHandler = async (property) => {
-		const updated = Object.keys(property).some((key) => {
+		const hasChanged = Object.keys(property).some((key) => {
 			return property[key] !== initialValues[key];
 		});
-		if (updated) {
+		if (hasChanged) {
 			const res = dispatch(updateProperty({ id, ...property }));
 			navigate("/properties");
 			if (res) {

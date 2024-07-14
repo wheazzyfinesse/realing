@@ -22,6 +22,60 @@ const registerSchema = baseSchema
 		path: ["confirmPassword"], // Path of error
 	});
 
+// // Schema for profile
+// const profileSchema = z
+// 	.object({
+// 		email: z.string().email({ message: "Invalid email address" }).optional(),
+// 		username: z.string().min(1, { message: "Username is required" }).optional(),
+// 		phone: z
+// 			.string()
+// 			.min(9, { message: "Phone number must be at least 9 digits long" })
+// 			.regex(/^\d+$/, { message: "Invalid phone number" })
+// 			.optional(),
+// 		password: z
+// 			.string()
+// 			.min(3, { message: "Password must be at least 3 characters long" })
+// 			.optional(),
+// 		confirmPassword: z
+// 			.string()
+// 			.min(3, {
+// 				message: "Confirm Password must be at least 3 characters long",
+// 			})
+// 			.optional(),
+// 		image: z.string().min(1, { message: "Image is required" }).optional(),
+// 		address: z.string().min(1, { message: "Address is required" }).optional(),
+// 		city: z.string().min(1, { message: "City is required" }).optional(),
+// 		state: z.string().min(1, { message: "State is required" }).optional(),
+// 		zip: z
+// 			.string()
+// 			.min(1, { message: "ZIP code is required" })
+// 			.regex(/^\d{5}(-\d{4})?$/, { message: "Invalid ZIP code" })
+// 			.optional(),
+// 		country: z.string().min(1, { message: "Country is required" }).optional(),
+// 	})
+// 	.refine((data) => data.password === data.confirmPassword, {
+// 		message: "Passwords don't match",
+// 		path: ["confirmPassword"], // Path of error
+// 	})
+// 	.optional();
+
+// const optionalProfileSchema = profileSchema.partial()
+// // const optionalProfileSchema = profileSchema.partial({
+// // 	email: true,
+// // 	username: true,
+// // 	phone: true,
+// // 	password: true,
+// // 	confirmPassword: true,
+// // 	image: true,
+// // 	address: true,
+// // 	city: true,
+// // 	state: true,
+// // 	zip: true,
+// // 	country: true,
+// // });
+
+
+
 // Schema for profile
 const profileSchema = z
 	.object({
@@ -38,11 +92,9 @@ const profileSchema = z
 			.optional(),
 		confirmPassword: z
 			.string()
-			.min(3, {
-				message: "Confirm Password must be at least 3 characters long",
-			})
+			.min(3, { message: "Confirm Password must be at least 3 characters long" })
 			.optional(),
-		image: z.string().min(1, { message: "Image is required" }).optional(),
+		// image: z.string().min(1, { message: "Image is required" }).optional(),
 		address: z.string().min(1, { message: "Address is required" }).optional(),
 		city: z.string().min(1, { message: "City is required" }).optional(),
 		state: z.string().min(1, { message: "State is required" }).optional(),
@@ -53,25 +105,13 @@ const profileSchema = z
 			.optional(),
 		country: z.string().min(1, { message: "Country is required" }).optional(),
 	})
-	.refine((data) => data.password === data.confirmPassword, {
+	.refine((data) => !data.password || data.password === data.confirmPassword, {
 		message: "Passwords don't match",
 		path: ["confirmPassword"], // Path of error
-	})
-	.optional();
+	});
 
-// const optionalProfileSchema = profileSchema.partial({
-// 	email: true,
-// 	username: true,
-// 	phone: true,
-// 	password: true,
-// 	confirmPassword: true,
-// 	image: true,
-// 	address: true,
-// 	city: true,
-// 	state: true,
-// 	zip: true,
-// 	country: true,
-// });
+// const optionalProfileSchema = profileSchema.partial({});
+
 
 const productSchema = z.object({
 	title: z.string().min(1, { message: "Product title is required" }),
@@ -116,6 +156,9 @@ const propertySchema = z.object({
 	location: z.string().min(1, { message: "Location is required" }),
 });
 
+const otpSchema = z.object({
+	otp: z.number().min(1, { message: "OTP is required" }),
+});
 const categorySchema = z.object({
 	title: z.string().min(1, { message: "Title is required" }),
 });
@@ -138,4 +181,5 @@ export {
 	searchSchema,
 	enquirySchema,
 	propertySchema,
+	otpSchema
 };
