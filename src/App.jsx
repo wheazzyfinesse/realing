@@ -64,8 +64,14 @@ function App() {
 						)
 					}
 				/>
-				<Route path="/profile" element={<Profile />} />
-				<Route path="/property/:id/contactagent" element={<ContactAgent />} />
+				<Route
+					path="/profile"
+					element={!userInfo ? <Navigate to="/" /> : <Profile />}
+				/>
+				<Route
+					path="/property/:id/contactagent"
+					element={userInfo ? <Navigate to="/login" /> : <ContactAgent />}
+				/>
 				<Route
 					path="/updateproperty/:id"
 					key={location.pathname}

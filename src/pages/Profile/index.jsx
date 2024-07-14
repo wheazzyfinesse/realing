@@ -28,7 +28,7 @@ const Profile = () => {
 			<div className="wrapper">
 				<div className="profile-container">
 					<div className="menu">
-						{!userInfo.isVerified && (
+						{!userInfo?.isVerified && (
 							<p className="verify" onClick={verifyAccount}>
 								Verify your account
 							</p>
