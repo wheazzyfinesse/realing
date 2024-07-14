@@ -50,6 +50,7 @@ const Account = () => {
 		"createdAt",
 		"updatedAt",
 		"isVerified",
+		"otp",
 		"token",
 		"isAdmin",
 	]; // Add any fields you want to exclude here
